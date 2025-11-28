@@ -1,0 +1,2674 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nexa</title>
+    <style>
+        :root {
+            --primary-color: #2E86AB;
+            --secondary-color: #A23B72;
+            --accent-color: #F18F01;
+            --background-color: #F7F9FC;
+            --text-color: #333333;
+            --light-gray: #E0E0E0;
+            --white: #FFFFFF;
+            --success-color: #4CAF50;
+            --warning-color: #FF9800;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--background-color);
+            color: var(--text-color);
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header Styles */
+        header {
+            background-color: var(--white);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 0;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+        }
+
+        .logo h1 {
+            color: var(--primary-color);
+            font-size: 28px;
+            font-weight: 700;
+        }
+
+        .logo span {
+            color: var(--secondary-color);
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+        }
+
+        nav ul li {
+            margin-left: 25px;
+        }
+
+        nav ul li a {
+            text-decoration: none;
+            color: var(--text-color);
+            font-weight: 500;
+            transition: color 0.3s;
+            padding: 8px 12px;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        nav ul li a.active {
+            color: var(--primary-color);
+            background-color: rgba(46, 134, 171, 0.1);
+        }
+
+        nav ul li a:hover {
+            color: var(--primary-color);
+            background-color: rgba(46, 134, 171, 0.1);
+        }
+
+        /* Welcome Section */
+        .welcome-section {
+            text-align: center;
+            padding: 60px 20px;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            border-radius: 10px;
+            margin: 30px 0;
+        }
+
+        .welcome-section h1 {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+        }
+
+        .welcome-section p {
+            font-size: 1.2rem;
+            max-width: 700px;
+            margin: 0 auto 30px;
+        }
+
+        .level-selection {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin-top: 40px;
+            flex-wrap: wrap;
+        }
+
+        .level-card {
+            background-color: white;
+            color: var(--text-color);
+            padding: 30px;
+            border-radius: 10px;
+            width: 300px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s, box-shadow 0.3s;
+            cursor: pointer;
+        }
+
+        .level-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+        }
+
+        .level-card h3 {
+            color: var(--primary-color);
+            margin-bottom: 15px;
+            font-size: 1.5rem;
+        }
+
+        .level-card p {
+            margin-bottom: 20px;
+            font-size: 1rem;
+        }
+
+        .level-card .btn {
+            display: inline-block;
+            background-color: var(--primary-color);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 5px;
+            text-decoration: none;
+            font-weight: 500;
+            transition: background-color 0.3s;
+        }
+
+        .level-card .btn:hover {
+            background-color: #257293;
+        }
+
+        /* Main Content Styles */
+        .main-content {
+            margin-top: 30px;
+        }
+
+        .section {
+            display: none;
+            background-color: var(--white);
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            padding: 25px;
+            margin-bottom: 30px;
+        }
+
+        .section.active {
+            display: block;
+        }
+
+        .section h2 {
+            color: var(--primary-color);
+            margin-bottom: 20px;
+            font-size: 24px;
+            border-bottom: 2px solid var(--light-gray);
+            padding-bottom: 10px;
+        }
+
+        /* Middle School Category Navigation */
+        .category-nav {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 25px;
+            border-bottom: 1px solid var(--light-gray);
+            padding-bottom: 15px;
+        }
+
+        .category-btn {
+            background-color: var(--light-gray);
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: 500;
+        }
+
+        .category-btn.active {
+            background-color: var(--primary-color);
+            color: white;
+        }
+
+        .category-btn:hover {
+            background-color: var(--primary-color);
+            color: white;
+        }
+
+        /* Category Content */
+        .category-content {
+            display: none;
+        }
+
+        .category-content.active {
+            display: block;
+        }
+
+        .subsection {
+            margin-bottom: 30px;
+        }
+
+        .subsection h3 {
+            color: var(--secondary-color);
+            margin-bottom: 15px;
+            font-size: 20px;
+        }
+
+        .theory-content {
+            background-color: #f9f9f9;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+
+        .theory-content p {
+            margin-bottom: 15px;
+        }
+
+        .theory-content ul, .theory-content ol {
+            margin-left: 20px;
+            margin-bottom: 15px;
+        }
+
+        .theory-content li {
+            margin-bottom: 8px;
+        }
+
+        .example {
+            background-color: #f0f7ff;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+            border-left: 4px solid var(--primary-color);
+        }
+
+        .example h4 {
+            color: var(--primary-color);
+            margin-bottom: 10px;
+        }
+
+        .formula {
+            background-color: #e8f4f8;
+            padding: 10px;
+            border-radius: 5px;
+            margin: 10px 0;
+            font-family: 'Courier New', monospace;
+            text-align: center;
+        }
+
+        /* Calculator Styles */
+        .calculator-section {
+            display: flex;
+            gap: 30px;
+        }
+
+        .calculator-main {
+            flex: 3;
+        }
+
+        .input-container {
+            margin-bottom: 20px;
+        }
+
+        .input-field {
+            width: 100%;
+            padding: 15px;
+            border: 1px solid var(--light-gray);
+            border-radius: 4px;
+            font-size: 16px;
+            margin-bottom: 15px;
+        }
+
+        .input-field:focus {
+            outline: none;
+            border-color: var(--primary-color);
+        }
+
+        .solve-btn, .practice-btn {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 4px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            margin-right: 10px;
+            margin-bottom: 10px;
+        }
+
+        .solve-btn:hover, .practice-btn:hover {
+            background-color: #257293;
+        }
+
+        .check-btn {
+            background-color: var(--accent-color);
+        }
+
+        .check-btn:hover {
+            background-color: #d87d01;
+        }
+
+        .next-btn {
+            background-color: var(--secondary-color);
+        }
+
+        .next-btn:hover {
+            background-color: #8a2f5a;
+        }
+
+        .result-container {
+            margin-top: 30px;
+            padding: 20px;
+            background-color: #f5f9ff;
+            border-radius: 4px;
+            border-left: 4px solid var(--primary-color);
+            display: none;
+        }
+
+        .result-container h3 {
+            color: var(--primary-color);
+            margin-bottom: 10px;
+        }
+
+        .math-expression {
+            font-size: 18px;
+            margin: 15px 0;
+            padding: 10px;
+            background-color: var(--white);
+            border-radius: 4px;
+            font-family: 'Courier New', monospace;
+        }
+
+        .steps {
+            margin-top: 15px;
+        }
+
+        .step {
+            margin-bottom: 15px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid var(--light-gray);
+        }
+
+        .step:last-child {
+            border-bottom: none;
+        }
+
+        .error-message {
+            color: #d32f2f;
+            margin-top: 10px;
+            padding: 10px;
+            background-color: #ffebee;
+            border-radius: 4px;
+            display: none;
+        }
+
+        .success-message {
+            color: var(--success-color);
+            margin-top: 10px;
+            padding: 10px;
+            background-color: #e8f5e9;
+            border-radius: 4px;
+            display: none;
+        }
+
+        /* Sidebar Styles */
+        .sidebar {
+            flex: 1;
+            background-color: var(--white);
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            padding: 25px;
+        }
+
+        .sidebar h3 {
+            color: var(--primary-color);
+            margin-bottom: 15px;
+            font-size: 18px;
+        }
+
+        .examples-list {
+            list-style: none;
+        }
+
+        .examples-list li {
+            margin-bottom: 10px;
+            padding: 8px 0;
+            border-bottom: 1px solid var(--light-gray);
+            cursor: pointer;
+            transition: color 0.3s;
+        }
+
+        .examples-list li:hover {
+            color: var(--primary-color);
+        }
+
+        .examples-list li:last-child {
+            border-bottom: none;
+        }
+
+        /* Practice Section Styles */
+        .practice-container {
+            margin-top: 20px;
+        }
+
+        .practice-problem {
+            font-size: 20px;
+            margin: 20px 0;
+            padding: 15px;
+            background-color: #f5f9ff;
+            border-radius: 4px;
+            text-align: center;
+            font-family: 'Courier New', monospace;
+        }
+
+        .practice-stats {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+            padding: 15px;
+            background-color: #f0f0f0;
+            border-radius: 4px;
+        }
+
+        .stat-item {
+            text-align: center;
+        }
+
+        .stat-value {
+            font-size: 24px;
+            font-weight: bold;
+            color: var(--primary-color);
+        }
+
+        .practice-type-selector {
+            margin-bottom: 20px;
+            padding: 15px;
+            background-color: #f0f0f0;
+            border-radius: 4px;
+        }
+
+        .practice-type-selector h4 {
+            margin-bottom: 10px;
+            color: var(--primary-color);
+        }
+
+        .practice-type-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        /* Little Kids Section */
+        .kids-activity {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .kids-problem {
+            font-size: 48px;
+            margin: 30px 0;
+            padding: 20px;
+            background-color: #f5f9ff;
+            border-radius: 8px;
+            font-weight: bold;
+        }
+
+        .kids-answer-input {
+            width: 100px;
+            padding: 15px;
+            border: 2px solid var(--primary-color);
+            border-radius: 8px;
+            font-size: 24px;
+            text-align: center;
+            margin: 0 10px;
+        }
+
+        .comparison-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin: 20px 0;
+        }
+
+        .comparison-btn {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 8px;
+            font-size: 24px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .comparison-btn:hover {
+            background-color: #257293;
+        }
+
+        .kids-feedback {
+            font-size: 24px;
+            margin: 20px 0;
+            padding: 15px;
+            border-radius: 8px;
+            display: none;
+        }
+
+        .kids-feedback.correct {
+            background-color: #e8f5e9;
+            color: var(--success-color);
+        }
+
+        .kids-feedback.incorrect {
+            background-color: #ffebee;
+            color: #d32f2f;
+        }
+
+        /* Graph Section */
+        .graph-container {
+            width: 100%;
+            height: 400px;
+            border: 1px solid var(--light-gray);
+            border-radius: 8px;
+            margin: 20px 0;
+            background-color: white;
+        }
+
+        .graph-controls {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .graph-input {
+            flex: 1;
+            min-width: 200px;
+            padding: 10px;
+            border: 1px solid var(--light-gray);
+            border-radius: 4px;
+        }
+
+        /* Units Converter */
+        .converter-container {
+            display: flex;
+            gap: 20px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .converter-input {
+            flex: 1;
+            min-width: 200px;
+        }
+
+        .converter-select {
+            padding: 10px;
+            border: 1px solid var(--light-gray);
+            border-radius: 4px;
+            background-color: white;
+        }
+
+        .units-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+
+        .units-table th, .units-table td {
+            border: 1px solid var(--light-gray);
+            padding: 10px;
+            text-align: center;
+        }
+
+        .units-table th {
+            background-color: #f5f9ff;
+            color: var(--primary-color);
+        }
+
+        /* Footer Styles */
+        footer {
+            background-color: var(--white);
+            margin-top: 50px;
+            padding: 30px 0;
+            border-top: 1px solid var(--light-gray);
+            text-align: center;
+        }
+
+        .copyright {
+            color: #777;
+            font-size: 14px;
+        }
+
+        /* Responsive Styles */
+        @media (max-width: 768px) {
+            .calculator-section {
+                flex-direction: column;
+            }
+
+            .header-container {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            nav ul {
+                margin-top: 15px;
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+
+            nav ul li {
+                margin: 5px 10px;
+            }
+
+            .practice-stats {
+                flex-direction: column;
+                gap: 10px;
+            }
+
+            .level-selection {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .level-card {
+                width: 100%;
+                max-width: 400px;
+            }
+
+            .category-nav {
+                flex-direction: column;
+            }
+
+            .category-btn {
+                width: 100%;
+                text-align: center;
+            }
+
+            .practice-type-buttons {
+                flex-direction: column;
+            }
+
+            .comparison-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .converter-container {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container header-container">
+            <div class="logo">
+                <h1>Nex<span>a</span></h1>
+            </div>
+            <nav>
+                <ul>
+                    <li><a id="homeTab" class="active">Главная</a></li>
+                    <li><a id="littleKidsTab">Для самых маленьких</a></li>
+                    <li><a id="elementaryTab">Начальная школа</a></li>
+                    <li><a id="middleTab">Средняя школа</a></li>
+                    <li><a id="graphTab">Графики функций</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <div class="container main-content">
+        <!-- Приветственная секция -->
+        <section id="homeSection" class="section active">
+            <div class="welcome-section">
+                <h1>Nexa</h1>
+                <p>Ваш математический друг.</p>
+
+                <div class="level-selection">
+                    <div class="level-card" id="littleKidsCard">
+                        <h3>Для самых маленьких</h3>
+                        <p>Простые примеры и сравнение чисел.</p>
+                        <div class="btn">Начать обучение</div>
+                    </div>
+
+                    <div class="level-card" id="elementaryCard">
+                        <h3>Начальная школа</h3>
+                        <p>Основы математики, уравнения и единицы измерения.</p>
+                        <div class="btn">Начать обучение</div>
+                    </div>
+
+                    <div class="level-card" id="middleCard">
+                        <h3>Средняя школа</h3>
+                        <p>Квадратные уравнения, неравенства и системы уравнений.</p>
+                        <div class="btn">Начать обучение</div>
+                    </div>
+
+                    <div class="level-card" id="graphCard">
+                        <h3>Графики функций</h3>
+                        <p>Построение графиков функций и анализ их свойств.</p>
+                        <div class="btn">Начать обучение</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Раздел для самых маленьких -->
+        <section id="littleKidsSection" class="section">
+            <h2>Математика для самых маленьких</h2>
+
+            <div class="subsection">
+                <h3>Решение примеров</h3>
+                <div class="kids-activity">
+                    <div class="practice-problem" id="kidsMathProblem">
+                        <!-- Пример будет здесь -->
+                    </div>
+
+                    <div class="input-container">
+                        <input type="number" class="kids-answer-input" id="kidsMathAnswer" placeholder="?">
+                        <button class="practice-btn check-btn" id="kidsMathCheck">Проверить</button>
+                        <button class="practice-btn next-btn" id="kidsMathNext">Следующий пример</button>
+                    </div>
+
+                    <div class="kids-feedback" id="kidsMathFeedback"></div>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3>Сравнение чисел</h3>
+                <div class="kids-activity">
+                    <div class="practice-problem" id="kidsComparisonProblem">
+                        <!-- Числа для сравнения будут здесь -->
+                    </div>
+
+                    <div class="comparison-buttons">
+                        <button class="comparison-btn" id="lessBtn">&lt;</button>
+                        <button class="comparison-btn" id="equalBtn">=</button>
+                        <button class="comparison-btn" id="greaterBtn">&gt;</button>
+                    </div>
+
+                    <button class="practice-btn next-btn" id="kidsComparisonNext">Следующие числа</button>
+
+                    <div class="kids-feedback" id="kidsComparisonFeedback"></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Раздел для начальной школы -->
+        <section id="elementarySection" class="section">
+            <h2>Математика для начальной школы</h2>
+
+            <div class="subsection">
+                <h3>Теория: Простые уравнения</h3>
+                <div class="theory-content">
+                    <p>В начальной школе мы изучаем основы математики - простые уравнения, которые помогают развивать логическое мышление и понимание математических операций.</p>
+
+                    <p><strong>Что такое уравнение?</strong> Уравнение - это математическое выражение, в котором есть неизвестное число (обычно обозначаемое буквой x), которое мы должны найти. Уравнение всегда содержит знак равенства (=), который показывает, что выражения по обе стороны от него равны.</p>
+
+                    <div class="example">
+                        <h4>Пример: Простое уравнение</h4>
+                        <p>Решим уравнение: x + 5 = 12</p>
+                        <p><strong>Шаг 1:</strong> Чтобы найти x, нужно "убрать" 5 с левой стороны. Для этого вычтем 5 из обеих частей уравнения:</p>
+                        <p class="formula">x + 5 - 5 = 12 - 5</p>
+                        <p><strong>Шаг 2:</strong> Упрощаем обе стороны:</p>
+                        <p class="formula">x = 7</p>
+                        <p><strong>Ответ:</strong> x = 7</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3>Калькулятор уравнений</h3>
+                <div class="input-container">
+                    <input type="text" class="input-field" placeholder="Введите уравнение (например: x + 5 = 12 или 3x = 15)">
+                    <button class="solve-btn">Решить</button>
+                    <div class="error-message" id="elementaryErrorMessage"></div>
+                </div>
+
+                <div class="result-container" id="elementaryResultContainer">
+                    <h3>Решение:</h3>
+                    <div class="math-expression" id="elementaryMathExpression"></div>
+                    <div class="steps" id="elementaryStepsContainer">
+                        <!-- Шаги решения будут добавлены здесь -->
+                    </div>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3>Теория: Единицы измерения</h3>
+                <div class="theory-content">
+                    <p>Единицы измерения помогают нам измерять различные величины: длину, массу, время и другие.</p>
+
+                    <h4>Единицы длины</h4>
+                    <ul>
+                        <li>1 метр (м) = 100 сантиметров (см)</li>
+                        <li>1 сантиметр (см) = 10 миллиметров (мм)</li>
+                        <li>1 километр (км) = 1000 метров (м)</li>
+                    </ul>
+
+                    <h4>Единицы массы</h4>
+                    <ul>
+                        <li>1 килограмм (кг) = 1000 граммов (г)</li>
+                        <li>1 грамм (г) = 1000 миллиграммов (мг)</li>
+                    </ul>
+
+                    <h4>Единицы времени</h4>
+                    <ul>
+                        <li>1 час = 60 минут</li>
+                        <li>1 минута = 60 секунд</li>
+                        <li>1 сутки = 24 часа</li>
+                    </ul>
+
+                    <div class="example">
+                        <h4>Пример: Перевод единиц</h4>
+                        <p>Сколько минут в 2 часах?</p>
+                        <p><strong>Решение:</strong> 1 час = 60 минут, значит 2 часа = 2 × 60 = 120 минут</p>
+                        <p><strong>Ответ:</strong> 120 минут</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3>Калькулятор единиц измерения</h3>
+                <div class="converter-container">
+                    <div class="converter-input">
+                        <input type="number" class="input-field" id="unitValue" placeholder="Введите значение" value="1">
+                    </div>
+                    <select class="converter-select" id="unitFrom">
+                        <option value="m">Метры (м)</option>
+                        <option value="cm">Сантиметры (см)</option>
+                        <option value="km">Километры (км)</option>
+                        <option value="kg">Килограммы (кг)</option>
+                        <option value="g">Граммы (г)</option>
+                        <option value="h">Часы (ч)</option>
+                        <option value="min">Минуты (мин)</option>
+                        <option value="s">Секунды (с)</option>
+                    </select>
+                    <span>→</span>
+                    <select class="converter-select" id="unitTo">
+                        <option value="cm">Сантиметры (см)</option>
+                        <option value="m">Метры (м)</option>
+                        <option value="km">Километры (км)</option>
+                        <option value="g">Граммы (г)</option>
+                        <option value="kg">Килограммы (кг)</option>
+                        <option value="min">Минуты (мин)</option>
+                        <option value="h">Часы (ч)</option>
+                        <option value="s">Секунды (с)</option>
+                    </select>
+                    <button class="solve-btn" id="convertBtn">Перевести</button>
+                </div>
+
+                <div class="result-container" id="unitResultContainer">
+                    <h3>Результат:</h3>
+                    <div class="math-expression" id="unitMathExpression"></div>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3>Практика</h3>
+                <div class="practice-container">
+                    <div class="practice-stats">
+                        <div class="stat-item">
+                            <div class="stat-value" id="elementaryProblemsSolved">0</div>
+                            <div>Решено задач</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-value" id="elementaryCorrectAnswers">0</div>
+                            <div>Правильных ответов</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-value" id="elementarySuccessRate">0%</div>
+                            <div>Успешность</div>
+                        </div>
+                    </div>
+
+                    <div class="practice-type-selector">
+                        <h4>Выберите тип задач для практики:</h4>
+                        <div class="practice-type-buttons">
+                            <button class="practice-btn" data-practice-type="equations">Уравнения</button>
+                            <button class="practice-btn" data-practice-type="units">Единицы измерения</button>
+                        </div>
+                    </div>
+
+                    <div class="practice-problem" id="elementaryPracticeProblem">
+                        <!-- Сгенерированная задача будет здесь -->
+                    </div>
+
+                    <div class="input-container">
+                        <input type="text" class="input-field" id="elementaryPracticeAnswer" placeholder="Введите ответ">
+                        <button class="practice-btn check-btn" id="elementaryCheckAnswer">Проверить</button>
+                        <button class="practice-btn next-btn" id="elementaryNextProblem">Следующая задача</button>
+                    </div>
+
+                    <div class="error-message" id="elementaryPracticeError"></div>
+                    <div class="success-message" id="elementaryPracticeSuccess"></div>
+
+                    <div class="result-container" id="elementaryPracticeSolution">
+                        <h3>Решение:</h3>
+                        <div class="math-expression" id="elementaryPracticeMathExpression"></div>
+                        <div class="steps" id="elementaryPracticeStepsContainer">
+                            <!-- Шаги решения будут добавлены здесь -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Раздел для средней школы -->
+        <section id="middleSection" class="section">
+            <h2>Математика для средней школы</h2>
+
+            <!-- Навигация по категориям -->
+            <div class="category-nav">
+                <button class="category-btn active" data-category="quadratic">Квадратные уравнения</button>
+                <button class="category-btn" data-category="linear-inequality">Линейные неравенства</button>
+                <button class="category-btn" data-category="quadratic-inequality">Квадратные неравенства</button>
+                <button class="category-btn" data-category="rational">Дробно-рациональные уравнения</button>
+                <button class="category-btn" data-category="systems">Системы уравнений</button>
+            </div>
+
+            <!-- Категория: Квадратные уравнения -->
+            <div id="quadratic" class="category-content active">
+                <div class="subsection">
+                    <h3>Теория: Квадратные уравнения</h3>
+                    <div class="theory-content">
+                        <p><strong>Квадратные уравнения</strong> - это уравнения вида ax² + bx + c = 0, где a, b и c - коэффициенты, причем a ≠ 0.</p>
+
+                        <p><strong>Решение через дискриминант:</strong></p>
+                        <p>Дискриминант вычисляется по формуле:</p>
+                        <p class="formula">D = b² - 4ac</p>
+
+                        <div class="example">
+                            <h4>Пример: Квадратное уравнение</h4>
+                            <p>Решим уравнение: x² - 5x + 6 = 0</p>
+                            <p><strong>Шаг 1:</strong> Находим дискриминант: D = b² - 4ac = (-5)² - 4·1·6 = 25 - 24 = 1</p>
+                            <p><strong>Шаг 2:</strong> Так как D > 0, уравнение имеет два корня:</p>
+                            <p class="formula">x₁ = (5 + √1) / (2·1) = (5 + 1) / 2 = 6 / 2 = 3</p>
+                            <p class="formula">x₂ = (5 - √1) / (2·1) = (5 - 1) / 2 = 4 / 2 = 2</p>
+                            <p><strong>Ответ:</strong> x₁ = 3, x₂ = 2</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="subsection">
+                    <h3>Калькулятор квадратных уравнений</h3>
+                    <div class="calculator-section">
+                        <div class="calculator-main">
+                            <div class="input-container">
+                                <input type="text" class="input-field" placeholder="Введите квадратное уравнение (например: x^2 - 5x + 6 = 0)">
+                                <button class="solve-btn">Решить</button>
+                                <div class="error-message" id="quadraticErrorMessage"></div>
+                            </div>
+
+                            <div class="result-container" id="quadraticResultContainer">
+                                <h3>Решение:</h3>
+                                <div class="math-expression" id="quadraticMathExpression"></div>
+                                <div class="steps" id="quadraticStepsContainer">
+                                    <!-- Шаги решения будут добавлены здесь -->
+                                </div>
+                            </div>
+                        </div>
+
+                        <aside class="sidebar">
+                            <h3>Примеры квадратных уравнений</h3>
+                            <ul class="examples-list">
+                                <li>x^2 - 5x + 6 = 0</li>
+                                <li>2x^2 + 3x - 2 = 0</li>
+                                <li>x^2 - 4 = 0</li>
+                                <li>x^2 + 4x + 4 = 0</li>
+                                <li>3x^2 - 7x + 2 = 0</li>
+                            </ul>
+                        </aside>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Категория: Линейные неравенства -->
+            <div id="linear-inequality" class="category-content">
+                <div class="subsection">
+                    <h3>Теория: Линейные неравенства</h3>
+                    <div class="theory-content">
+                        <p><strong>Линейные неравенства</strong> - это неравенства вида ax + b > 0, ax + b < 0, ax + b ≥ 0, ax + b ≤ 0.</p>
+
+                        <div class="example">
+                            <h4>Пример: Линейное неравенство</h4>
+                            <p>Решим неравенство: 2x - 4 > 6</p>
+                            <p><strong>Шаг 1:</strong> Переносим константу в правую часть: 2x > 6 + 4 → 2x > 10</p>
+                            <p><strong>Шаг 2:</strong> Делим обе части на 2: x > 5</p>
+                            <p><strong>Ответ:</strong> x > 5</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="subsection">
+                    <h3>Калькулятор линейных неравенств</h3>
+                    <div class="calculator-section">
+                        <div class="calculator-main">
+                            <div class="input-container">
+                                <input type="text" class="input-field" placeholder="Введите линейное неравенство (например: 2x - 4 > 6)">
+                                <button class="solve-btn">Решить</button>
+                                <div class="error-message" id="linearInequalityErrorMessage"></div>
+                            </div>
+
+                            <div class="result-container" id="linearInequalityResultContainer">
+                                <h3>Решение:</h3>
+                                <div class="math-expression" id="linearInequalityMathExpression"></div>
+                                <div class="steps" id="linearInequalityStepsContainer">
+                                    <!-- Шаги решения будут добавлены здесь -->
+                                </div>
+                            </div>
+                        </div>
+
+                        <aside class="sidebar">
+                            <h3>Примеры линейных неравенств</h3>
+                            <ul class="examples-list">
+                                <li>2x - 4 > 6</li>
+                                <li>3x + 5 ≤ 11</li>
+                                <li>-2x + 3 < 7</li>
+                                <li>4x - 1 ≥ 15</li>
+                                <li>5 - x > 2</li>
+                            </ul>
+                        </aside>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Остальные категории средней школы -->
+            <!-- ... (код для остальных категорий аналогичен) ... -->
+
+            <!-- Практика для средней школы -->
+            <div class="subsection">
+                <h3>Практика</h3>
+                <div class="practice-container">
+                    <div class="practice-stats">
+                        <div class="stat-item">
+                            <div class="stat-value" id="middleProblemsSolved">0</div>
+                            <div>Решено задач</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-value" id="middleCorrectAnswers">0</div>
+                            <div>Правильных ответов</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-value" id="middleSuccessRate">0%</div>
+                            <div>Успешность</div>
+                        </div>
+                    </div>
+
+                    <div class="practice-type-selector">
+                        <h4>Выберите тип задач для практики:</h4>
+                        <div class="practice-type-buttons">
+                            <button class="practice-btn" data-practice-type="quadratic">Квадратные уравнения</button>
+                            <button class="practice-btn" data-practice-type="linear-inequality">Линейные неравенства</button>
+                            <button class="practice-btn" data-practice-type="mixed">Случайные задачи</button>
+                        </div>
+                    </div>
+
+                    <div class="practice-problem" id="middlePracticeProblem">
+                        <!-- Сгенерированное уравнение будет здесь -->
+                    </div>
+
+                    <div class="input-container">
+                        <input type="text" class="input-field" id="middlePracticeAnswer" placeholder="Введите ответ">
+                        <button class="practice-btn check-btn" id="middleCheckAnswer">Проверить</button>
+                        <button class="practice-btn next-btn" id="middleNextProblem">Следующее уравнение</button>
+                    </div>
+
+                    <div class="error-message" id="middlePracticeError"></div>
+                    <div class="success-message" id="middlePracticeSuccess"></div>
+
+                    <div class="result-container" id="middlePracticeSolution">
+                        <h3>Решение:</h3>
+                        <div class="math-expression" id="middlePracticeMathExpression"></div>
+                        <div class="steps" id="middlePracticeStepsContainer">
+                            <!-- Шаги решения будут добавлены здесь -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Раздел построения графиков функций -->
+        <section id="graphSection" class="section">
+            <h2>Построение графиков функций</h2>
+
+            <div class="subsection">
+                <h3>Построитель графиков</h3>
+                <div class="graph-controls">
+                    <input type="text" class="graph-input" id="graphFunction" placeholder="Введите функцию (например: x^2, sin(x), 2*x+1)" value="x^2">
+                    <button class="solve-btn" id="plotBtn">Построить график</button>
+                </div>
+
+                <div class="graph-container">
+                    <canvas id="graphCanvas" width="800" height="400"></canvas>
+                </div>
+
+                <div class="result-container" id="graphResultContainer">
+                    <h3>Свойства функции:</h3>
+                    <div class="steps" id="graphProperties">
+                        <!-- Свойства функции будут здесь -->
+                    </div>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3>Примеры функций</h3>
+                <div class="examples-list">
+                    <li>y = x</li>
+                    <li>y = x^2</li>
+                    <li>y = sin(x)</li>
+                    <li>y = cos(x)</li>
+                    <li>y = 1/x</li>
+                    <li>y = sqrt(x)</li>
+                    <li>y = log(x)</li>
+                    <li>y = 2^x</li>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <footer>
+        <div class="container">
+            <div class="copyright">
+                &copy; 2025 Nexa. Все права защищены.
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Основной объект для решения уравнений и неравенств
+        const EquationSolver = {
+            // Решение линейного уравнения вида ax + b = 0
+            solveLinear: function(a, b, equationStr = "") {
+                const steps = [];
+
+                if (equationStr) {
+                    steps.push(`Исходное уравнение: ${equationStr}`);
+                } else {
+                    steps.push(`Исходное уравнение: ${a}x ${b >= 0 ? '+' : ''} ${b} = 0`);
+                }
+
+                if (a === 0) {
+                    if (b === 0) {
+                        steps.push("Уравнение 0 = 0 верно для любого x");
+                        return {
+                            solution: "x - любое число",
+                            steps: steps
+                        };
+                    } else {
+                        steps.push(`Уравнение ${b} = 0 не имеет решений`);
+                        return {
+                            solution: "Нет решений",
+                            steps: steps
+                        };
+                    }
+                }
+
+                if (b !== 0) {
+                    steps.push(`Переносим константу в правую часть: ${a}x = ${-b}`);
+                }
+
+                steps.push(`Делим обе части на ${a}: x = ${-b} / ${a}`);
+
+                const solution = -b / a;
+                steps.push(`Ответ: x = ${solution}`);
+
+                return {
+                    solution: `x = ${solution}`,
+                    steps: steps
+                };
+            },
+
+            // Решение квадратного уравнения вида ax² + bx + c = 0
+            solveQuadratic: function(a, b, c, equationStr = "") {
+                const steps = [];
+
+                if (equationStr) {
+                    steps.push(`Исходное уравнение: ${equationStr}`);
+                } else {
+                    steps.push(`Исходное уравнение: ${a}x² ${b >= 0 ? '+' : ''} ${b}x ${c >= 0 ? '+' : ''} ${c} = 0`);
+                }
+
+                // Вычисляем дискриминант
+                const discriminant = b * b - 4 * a * c;
+                steps.push(`Вычисляем дискриминант: D = b² - 4ac = ${b}² - 4·${a}·${c} = ${discriminant}`);
+
+                if (discriminant < 0) {
+                    steps.push("Дискриминант меньше нуля, действительных корней нет");
+                    return {
+                        solution: "Действительных корней нет",
+                        steps: steps
+                    };
+                } else if (discriminant === 0) {
+                    steps.push("Дискриминант равен нулю, уравнение имеет один корень");
+                    const x = -b / (2 * a);
+                    steps.push(`x = -b / (2a) = -${b} / (2·${a}) = ${x}`);
+                    return {
+                        solution: `x = ${x}`,
+                        steps: steps
+                    };
+                } else {
+                    steps.push("Дискриминант больше нуля, уравнение имеет два корня");
+                    const sqrtD = Math.sqrt(discriminant);
+                    const x1 = (-b + sqrtD) / (2 * a);
+                    const x2 = (-b - sqrtD) / (2 * a);
+                    steps.push(`x₁ = (-b + √D) / (2a) = (${-b} + ${sqrtD.toFixed(2)}) / (2·${a}) = ${x1.toFixed(2)}`);
+                    steps.push(`x₂ = (-b - √D) / (2a) = (${-b} - ${sqrtD.toFixed(2)}) / (2·${a}) = ${x2.toFixed(2)}`);
+                    return {
+                        solution: `x₁ = ${x1.toFixed(2)}, x₂ = ${x2.toFixed(2)}`,
+                        steps: steps
+                    };
+                }
+            },
+
+            // Решение линейного неравенства вида ax + b > 0, ax + b < 0, ax + b >= 0, ax + b <= 0
+            solveLinearInequality: function(a, b, sign, equationStr = "") {
+                const steps = [];
+
+                if (equationStr) {
+                    steps.push(`Исходное неравенство: ${equationStr}`);
+                } else {
+                    steps.push(`Исходное неравенство: ${a}x ${b >= 0 ? '+' : ''} ${b} ${sign} 0`);
+                }
+
+                if (a === 0) {
+                    if (sign === '>' && b > 0) {
+                        steps.push(`Неравенство ${b} > 0 верно для любого x`);
+                        return {
+                            solution: "x - любое число",
+                            steps: steps
+                        };
+                    } else if (sign === '>=' && b >= 0) {
+                        steps.push(`Неравенство ${b} >= 0 верно для любого x`);
+                        return {
+                            solution: "x - любое число",
+                            steps: steps
+                        };
+                    } else if (sign === '<' && b < 0) {
+                        steps.push(`Неравенство ${b} < 0 верно для любого x`);
+                        return {
+                            solution: "x - любое число",
+                            steps: steps
+                        };
+                    } else if (sign === '<=' && b <= 0) {
+                        steps.push(`Неравенство ${b} <= 0 верно для любого x`);
+                        return {
+                            solution: "x - любое число",
+                            steps: steps
+                        };
+                    } else {
+                        steps.push(`Неравенство ${b} ${sign} 0 не имеет решений`);
+                        return {
+                            solution: "Нет решений",
+                            steps: steps
+                        };
+                    }
+                }
+
+                // Переносим константу в правую часть
+                if (b !== 0) {
+                    steps.push(`Переносим константу в правую часть: ${a}x ${sign} ${-b}`);
+                }
+
+                // Делим на коэффициент a
+                let solution;
+                if (a > 0) {
+                    steps.push(`Делим обе части на ${a} (положительное число, знак неравенства не меняется):`);
+                    if (sign === '>') {
+                        solution = `x > ${-b/a}`;
+                        steps.push(`x > ${-b/a}`);
+                    } else if (sign === '>=') {
+                        solution = `x >= ${-b/a}`;
+                        steps.push(`x >= ${-b/a}`);
+                    } else if (sign === '<') {
+                        solution = `x < ${-b/a}`;
+                        steps.push(`x < ${-b/a}`);
+                    } else if (sign === '<=') {
+                        solution = `x <= ${-b/a}`;
+                        steps.push(`x <= ${-b/a}`);
+                    }
+                } else {
+                    steps.push(`Делим обе части на ${a} (отрицательное число, знак неравенства меняется на противоположный):`);
+                    if (sign === '>') {
+                        solution = `x < ${-b/a}`;
+                        steps.push(`x < ${-b/a}`);
+                    } else if (sign === '>=') {
+                        solution = `x <= ${-b/a}`;
+                        steps.push(`x <= ${-b/a}`);
+                    } else if (sign === '<') {
+                        solution = `x > ${-b/a}`;
+                        steps.push(`x > ${-b/a}`);
+                    } else if (sign === '<=') {
+                        solution = `x >= ${-b/a}`;
+                        steps.push(`x >= ${-b/a}`);
+                    }
+                }
+
+                return {
+                    solution: solution,
+                    steps: steps
+                };
+            },
+
+            // Парсинг уравнения/неравенства и определение его типа
+            parseAndSolve: function(equation) {
+                // Сохраняем исходное уравнение для вывода
+                const originalEquation = equation;
+
+                // Нормализация уравнения
+                equation = equation.replace(/\s/g, '').replace(/²/g, '^2').toLowerCase();
+
+                // Определяем тип выражения (уравнение или неравенство)
+                let isInequality = false;
+                let inequalitySign = '';
+
+                if (equation.includes('>=')) {
+                    isInequality = true;
+                    inequalitySign = '>=';
+                } else if (equation.includes('<=')) {
+                    isInequality = true;
+                    inequalitySign = '<=';
+                } else if (equation.includes('>')) {
+                    isInequality = true;
+                    inequalitySign = '>';
+                } else if (equation.includes('<')) {
+                    isInequality = true;
+                    inequalitySign = '<';
+                } else if (!equation.includes('=')) {
+                    throw new Error("Выражение должно содержать знак '=' или знак неравенства");
+                }
+
+                if (isInequality) {
+                    const parts = equation.split(inequalitySign);
+                    if (parts.length !== 2) {
+                        throw new Error("Некорректный формат неравенства");
+                    }
+
+                    let left = parts[0];
+                    let right = parts[1];
+
+                    // Переносим все в левую часть
+                    if (right !== '0') {
+                        // Добавляем минус перед правой частью
+                        let adjustedRight = right.startsWith('-') ? right.substring(1) : '-' + right;
+
+                        // Объединяем левую и правую части
+                        left = left + adjustedRight;
+                        right = '0';
+                    }
+
+                    // Инициализируем коэффициенты
+                    let a = 0, b = 0;
+
+                    // Регулярные выражения для поиска членов уравнения
+                    const linearPattern = /([+-]?)(\d*\.?\d*)x(?!\^)/g;
+                    const constantPattern = /([+-]?)(\d*\.?\d+)(?!.*x)/g;
+
+                    // Обрабатываем линейные члены
+                    let match;
+                    while ((match = linearPattern.exec(left)) !== null) {
+                        const sign = match[1];
+                        let coeff = match[2];
+
+                        let value = coeff === '' ? 1 : parseFloat(coeff);
+                        if (sign === '-') value = -value;
+
+                        a += value;
+                    }
+
+                    // Обрабатываем константы
+                    while ((match = constantPattern.exec(left)) !== null) {
+                        const sign = match[1];
+                        let coeff = match[2];
+
+                        let value = parseFloat(coeff);
+                        if (sign === '-') value = -value;
+
+                        b += value;
+                    }
+
+                    return this.solveLinearInequality(a, b, inequalitySign, originalEquation);
+                } else {
+                    // Это уравнение
+                    const parts = equation.split('=');
+                    if (parts.length !== 2) {
+                        throw new Error("Некорректный формат уравнения");
+                    }
+
+                    let left = parts[0];
+                    const right = parts[1];
+
+                    // Если правая часть не 0, переносим все в левую часть
+                    if (right !== '0') {
+                        // Добавляем минус перед правой частью
+                        let adjustedRight = right.startsWith('-') ? right.substring(1) : '-' + right;
+
+                        // Объединяем левую и правую части
+                        left = left + adjustedRight;
+                    }
+
+                    // Инициализируем коэффициенты
+                    let a = 0, b = 0, c = 0;
+
+                    // Регулярные выражения для поиска членов уравнения
+                    const quadraticPattern = /([+-]?)(\d*\.?\d*)x\^2/g;
+                    const linearPattern = /([+-]?)(\d*\.?\d*)x(?!\^)/g;
+                    const constantPattern = /([+-]?)(\d*\.?\d+)(?!.*x)/g;
+
+                    // Обрабатываем квадратичные члены
+                    let match;
+                    while ((match = quadraticPattern.exec(left)) !== null) {
+                        const sign = match[1];
+                        let coeff = match[2];
+
+                        let value = coeff === '' ? 1 : parseFloat(coeff);
+                        if (sign === '-') value = -value;
+
+                        a += value;
+                    }
+
+                    // Обрабатываем линейные члены
+                    while ((match = linearPattern.exec(left)) !== null) {
+                        const sign = match[1];
+                        let coeff = match[2];
+
+                        let value = coeff === '' ? 1 : parseFloat(coeff);
+                        if (sign === '-') value = -value;
+
+                        b += value;
+                    }
+
+                    // Обрабатываем константы
+                    while ((match = constantPattern.exec(left)) !== null) {
+                        const sign = match[1];
+                        let coeff = match[2];
+
+                        let value = parseFloat(coeff);
+                        if (sign === '-') value = -value;
+
+                        c += value;
+                    }
+
+                    // Определение типа уравнения и решение
+                    if (a !== 0) {
+                        return this.solveQuadratic(a, b, c, originalEquation);
+                    } else if (b !== 0) {
+                        return this.solveLinear(b, c, originalEquation);
+                    } else {
+                        if (c === 0) {
+                            return {
+                                solution: "x - любое число",
+                                steps: [`Исходное уравнение: ${originalEquation}`, "Уравнение 0 = 0 верно для любого x"]
+                            };
+                        } else {
+                            return {
+                                solution: "Нет решений",
+                                steps: [`Исходное уравнение: ${originalEquation}`, `Уравнение ${c} = 0 не имеет решений`]
+                            };
+                        }
+                    }
+                }
+            }
+        };
+
+        // Генератор примеров для самых маленьких
+        const KidsMathGenerator = {
+            // Генерация простого математического примера
+            generateMathProblem: function() {
+                const operations = ['+', '-', '*'];
+                const operation = operations[Math.floor(Math.random() * operations.length)];
+
+                let a, b, result;
+
+                if (operation === '+') {
+                    a = Math.floor(Math.random() * 10) + 1;
+                    b = Math.floor(Math.random() * 10) + 1;
+                    result = a + b;
+                } else if (operation === '-') {
+                    a = Math.floor(Math.random() * 10) + 5;
+                    b = Math.floor(Math.random() * 5) + 1;
+                    result = a - b;
+                } else if (operation === '*') {
+                    a = Math.floor(Math.random() * 5) + 1;
+                    b = Math.floor(Math.random() * 5) + 1;
+                    result = a * b;
+                }
+
+                return {
+                    problem: `${a} ${operation} ${b} = ?`,
+                    answer: result
+                };
+            },
+
+            // Генерация чисел для сравнения
+            generateComparisonProblem: function() {
+                const a = Math.floor(Math.random() * 20) + 1;
+                const b = Math.floor(Math.random() * 20) + 1;
+
+                let correctAnswer;
+                if (a > b) correctAnswer = '>';
+                else if (a < b) correctAnswer = '<';
+                else correctAnswer = '=';
+
+                return {
+                    problem: `${a} ? ${b}`,
+                    a: a,
+                    b: b,
+                    answer: correctAnswer
+                };
+            }
+        };
+
+        // Генератор задач с единицами измерения
+        const UnitsPracticeGenerator = {
+            // Генерация задачи на сравнение единиц измерения
+            generateComparisonProblem: function() {
+                const units = [
+                    { type: 'time', units: ['s', 'min', 'h'], factors: [1, 60, 3600] },
+                    { type: 'length', units: ['mm', 'cm', 'm', 'km'], factors: [1, 10, 1000, 1000000] },
+                    { type: 'mass', units: ['mg', 'g', 'kg'], factors: [1, 1000, 1000000] }
+                ];
+
+                const unitType = units[Math.floor(Math.random() * units.length)];
+                const unitIndex1 = Math.floor(Math.random() * unitType.units.length);
+                let unitIndex2;
+                do {
+                    unitIndex2 = Math.floor(Math.random() * unitType.units.length);
+                } while (unitIndex1 === unitIndex2);
+
+                const value1 = Math.floor(Math.random() * 100) + 1;
+                const value2 = Math.floor(Math.random() * 100) + 1;
+
+                // Переводим оба значения в базовые единицы для сравнения
+                const baseValue1 = value1 * unitType.factors[unitIndex1];
+                const baseValue2 = value2 * unitType.factors[unitIndex2];
+
+                let correctAnswer;
+                if (baseValue1 > baseValue2) correctAnswer = '>';
+                else if (baseValue1 < baseValue2) correctAnswer = '<';
+                else correctAnswer = '=';
+
+                // Получаем русские названия единиц
+                const unitNames = {
+                    's': 'секунд', 'min': 'минут', 'h': 'часов',
+                    'mm': 'мм', 'cm': 'см', 'm': 'м', 'km': 'км',
+                    'mg': 'мг', 'g': 'г', 'kg': 'кг'
+                };
+
+                return {
+                    problem: `${value1} ${unitNames[unitType.units[unitIndex1]]} ? ${value2} ${unitNames[unitType.units[unitIndex2]]}`,
+                    answer: correctAnswer,
+                    explanation: `${value1} ${unitNames[unitType.units[unitIndex1]]} = ${baseValue1} баз. ед., ${value2} ${unitNames[unitType.units[unitIndex2]]} = ${baseValue2} баз. ед.`
+                };
+            },
+
+            // Генерация задачи на перевод единиц
+            generateConversionProblem: function() {
+                const units = [
+                    { type: 'time', units: ['s', 'min', 'h'], factors: [1, 60, 3600], names: ['секунд', 'минут', 'часов'] },
+                    { type: 'length', units: ['mm', 'cm', 'm', 'km'], factors: [1, 10, 1000, 1000000], names: ['мм', 'см', 'м', 'км'] },
+                    { type: 'mass', units: ['mg', 'g', 'kg'], factors: [1, 1000, 1000000], names: ['мг', 'г', 'кг'] }
+                ];
+
+                const unitType = units[Math.floor(Math.random() * units.length)];
+                const unitIndex1 = Math.floor(Math.random() * unitType.units.length);
+                let unitIndex2;
+                do {
+                    unitIndex2 = Math.floor(Math.random() * unitType.units.length);
+                } while (unitIndex1 === unitIndex2);
+
+                const value = Math.floor(Math.random() * 100) + 1;
+                const result = (value * unitType.factors[unitIndex1]) / unitType.factors[unitIndex2];
+
+                return {
+                    problem: `Сколько ${unitType.names[unitIndex2]} в ${value} ${unitType.names[unitIndex1]}?`,
+                    answer: result.toFixed(2),
+                    explanation: `${value} ${unitType.names[unitIndex1]} = ${value} × ${unitType.factors[unitIndex1]} / ${unitType.factors[unitIndex2]} = ${result.toFixed(2)} ${unitType.names[unitIndex2]}`
+                };
+            }
+        };
+
+        // Генератор случайных уравнений для начальной школы
+        const ElementaryPracticeGenerator = {
+            // Генерация линейного уравнения
+            generateLinear: function() {
+                const a = Math.floor(Math.random() * 10) + 1; // от 1 до 10
+                const b = Math.floor(Math.random() * 20) - 10; // от -10 до 10
+                const c = Math.floor(Math.random() * 20) + 1; // от 1 до 20
+
+                // Формируем уравнение
+                let equation = `${a}x`;
+                if (b > 0) {
+                    equation += ` + ${b}`;
+                } else if (b < 0) {
+                    equation += ` - ${Math.abs(b)}`;
+                }
+                equation += ` = ${c}`;
+
+                // Решаем уравнение
+                const solutionValue = (c - b) / a;
+                const solution = {
+                    solution: `x = ${solutionValue}`,
+                    steps: [
+                        `Исходное уравнение: ${equation}`,
+                        `Переносим константы: ${a}x = ${c} ${b > 0 ? '-' : '+'} ${Math.abs(b)}`,
+                        `Упрощаем: ${a}x = ${c - b}`,
+                        `Делим на ${a}: x = ${solutionValue}`
+                    ]
+                };
+
+                return {
+                    equation: equation,
+                    solution: solution
+                };
+            },
+
+            // Генерация случайного уравнения для начальной школы
+            generateRandomEquation: function() {
+                return this.generateLinear();
+            }
+        };
+
+        // Генератор случайных уравнений и неравенств для средней школы
+        const MiddlePracticeGenerator = {
+            // Генерация линейного уравнения
+            generateLinear: function() {
+                const a = Math.floor(Math.random() * 10) + 1; // от 1 до 10
+                const b = Math.floor(Math.random() * 20) - 10; // от -10 до 10
+                const c = Math.floor(Math.random() * 20) + 1; // от 1 до 20
+
+                // Формируем уравнение
+                let equation = `${a}x`;
+                if (b > 0) {
+                    equation += ` + ${b}`;
+                } else if (b < 0) {
+                    equation += ` - ${Math.abs(b)}`;
+                }
+                equation += ` = ${c}`;
+
+                // Решаем уравнение
+                const solutionValue = (c - b) / a;
+                const solution = {
+                    solution: `x = ${solutionValue}`,
+                    steps: [
+                        `Исходное уравнение: ${equation}`,
+                        `Переносим константы: ${a}x = ${c} ${b > 0 ? '-' : '+'} ${Math.abs(b)}`,
+                        `Упрощаем: ${a}x = ${c - b}`,
+                        `Делим на ${a}: x = ${solutionValue}`
+                    ]
+                };
+
+                return {
+                    equation: equation,
+                    solution: solution
+                };
+            },
+
+            // Генерация квадратного уравнения
+            generateQuadratic: function() {
+                // Генерируем корни
+                const x1 = Math.floor(Math.random() * 10) - 5; // от -5 до 5
+                const x2 = Math.floor(Math.random() * 10) - 5; // от -5 до 5
+
+                // Формируем коэффициенты по теореме Виета
+                const a = 1;
+                const b = -(x1 + x2);
+                const c = x1 * x2;
+
+                // Формируем уравнение
+                let equation = `x²`;
+                if (b > 0) {
+                    equation += ` + ${b}x`;
+                } else if (b < 0) {
+                    equation += ` - ${Math.abs(b)}x`;
+                }
+
+                if (c > 0) {
+                    equation += ` + ${c}`;
+                } else if (c < 0) {
+                    equation += ` - ${Math.abs(c)}`;
+                }
+                equation += " = 0";
+
+                // Решаем уравнение
+                const solution = EquationSolver.solveQuadratic(a, b, c, equation);
+
+                return {
+                    equation: equation,
+                    solution: solution
+                };
+            },
+
+            // Генерация линейного неравенства
+            generateLinearInequality: function() {
+                const a = Math.floor(Math.random() * 10) + 1; // от 1 до 10
+                const b = Math.floor(Math.random() * 20) - 10; // от -10 до 10
+
+                // Выбираем случайный знак неравенства
+                const signs = ['>', '<', '>=', '<='];
+                const sign = signs[Math.floor(Math.random() * signs.length)];
+
+                // Формируем неравенство
+                let equation = `${a}x`;
+                if (b > 0) {
+                    equation += ` + ${b}`;
+                } else if (b < 0) {
+                    equation += ` - ${Math.abs(b)}`;
+                }
+                equation += ` ${sign} 0`;
+
+                // Решаем неравенство
+                const solution = EquationSolver.solveLinearInequality(a, b, sign, equation);
+
+                return {
+                    equation: equation,
+                    solution: solution
+                };
+            },
+
+            // Генерация случайного уравнения/неравенства (линейного, квадратного или неравенства)
+            generateRandomEquation: function(type = 'mixed') {
+                let types;
+
+                if (type === 'mixed') {
+                    types = ['linear', 'quadratic', 'linear-inequality'];
+                } else {
+                    types = [type];
+                }
+
+                const selectedType = types[Math.floor(Math.random() * types.length)];
+
+                if (selectedType === 'linear') {
+                    return this.generateLinear();
+                } else if (selectedType === 'quadratic') {
+                    return this.generateQuadratic();
+                } else if (selectedType === 'linear-inequality') {
+                    return this.generateLinearInequality();
+                }
+            }
+        };
+
+        // Конвертер единиц измерения
+        const UnitsConverter = {
+            // Коэффициенты преобразования
+            factors: {
+                // Длина
+                'mm': 1,
+                'cm': 10,
+                'm': 1000,
+                'km': 1000000,
+                // Масса
+                'mg': 1,
+                'g': 1000,
+                'kg': 1000000,
+                // Время
+                's': 1,
+                'min': 60,
+                'h': 3600
+            },
+
+            // Названия единиц на русском
+            names: {
+                'mm': 'миллиметров',
+                'cm': 'сантиметров',
+                'm': 'метров',
+                'km': 'километров',
+                'mg': 'миллиграммов',
+                'g': 'граммов',
+                'kg': 'килограммов',
+                's': 'секунд',
+                'min': 'минут',
+                'h': 'часов'
+            },
+
+            // Преобразование единиц
+            convert: function(value, fromUnit, toUnit) {
+                if (!this.factors[fromUnit] || !this.factors[toUnit]) {
+                    throw new Error('Неизвестная единица измерения');
+                }
+
+                // Преобразуем в базовые единицы, затем в целевую единицу
+                const baseValue = value * this.factors[fromUnit];
+                const result = baseValue / this.factors[toUnit];
+
+                return {
+                    value: result,
+                    explanation: `${value} ${this.names[fromUnit]} = ${value} × ${this.factors[fromUnit]} / ${this.factors[toUnit]} = ${result.toFixed(6)} ${this.names[toUnit]}`
+                };
+            }
+        };
+
+        // Обработчики событий после загрузки DOM
+        document.addEventListener('DOMContentLoaded', function() {
+            // Элементы навигации
+            const homeTab = document.getElementById('homeTab');
+            const littleKidsTab = document.getElementById('littleKidsTab');
+            const elementaryTab = document.getElementById('elementaryTab');
+            const middleTab = document.getElementById('middleTab');
+            const graphTab = document.getElementById('graphTab');
+
+            const homeSection = document.getElementById('homeSection');
+            const littleKidsSection = document.getElementById('littleKidsSection');
+            const elementarySection = document.getElementById('elementarySection');
+            const middleSection = document.getElementById('middleSection');
+            const graphSection = document.getElementById('graphSection');
+
+            // Карточки выбора уровня на главной странице
+            const littleKidsCard = document.getElementById('littleKidsCard');
+            const elementaryCard = document.getElementById('elementaryCard');
+            const middleCard = document.getElementById('middleCard');
+            const graphCard = document.getElementById('graphCard');
+
+            // Элементы для самых маленьких
+            const kidsMathProblem = document.getElementById('kidsMathProblem');
+            const kidsMathAnswer = document.getElementById('kidsMathAnswer');
+            const kidsMathCheck = document.getElementById('kidsMathCheck');
+            const kidsMathNext = document.getElementById('kidsMathNext');
+            const kidsMathFeedback = document.getElementById('kidsMathFeedback');
+
+            const kidsComparisonProblem = document.getElementById('kidsComparisonProblem');
+            const lessBtn = document.getElementById('lessBtn');
+            const equalBtn = document.getElementById('equalBtn');
+            const greaterBtn = document.getElementById('greaterBtn');
+            const kidsComparisonNext = document.getElementById('kidsComparisonNext');
+            const kidsComparisonFeedback = document.getElementById('kidsComparisonFeedback');
+
+            // Элементы для начальной школы
+            const elementarySolveBtn = document.querySelector('#elementarySection .solve-btn');
+            const elementaryInputField = document.querySelector('#elementarySection .input-field');
+            const elementaryMathExpression = document.getElementById('elementaryMathExpression');
+            const elementaryStepsContainer = document.getElementById('elementaryStepsContainer');
+            const elementaryResultContainer = document.getElementById('elementaryResultContainer');
+            const elementaryErrorMessage = document.getElementById('elementaryErrorMessage');
+
+            // Конвертер единиц измерения
+            const unitValue = document.getElementById('unitValue');
+            const unitFrom = document.getElementById('unitFrom');
+            const unitTo = document.getElementById('unitTo');
+            const convertBtn = document.getElementById('convertBtn');
+            const unitResultContainer = document.getElementById('unitResultContainer');
+            const unitMathExpression = document.getElementById('unitMathExpression');
+
+            // Практика для начальной школы
+            const elementaryPracticeProblem = document.getElementById('elementaryPracticeProblem');
+            const elementaryPracticeAnswer = document.getElementById('elementaryPracticeAnswer');
+            const elementaryCheckAnswerButton = document.getElementById('elementaryCheckAnswer');
+            const elementaryNextProblemButton = document.getElementById('elementaryNextProblem');
+            const elementaryPracticeError = document.getElementById('elementaryPracticeError');
+            const elementaryPracticeSuccess = document.getElementById('elementaryPracticeSuccess');
+            const elementaryPracticeSolution = document.getElementById('elementaryPracticeSolution');
+            const elementaryPracticeMathExpression = document.getElementById('elementaryPracticeMathExpression');
+            const elementaryPracticeStepsContainer = document.getElementById('elementaryPracticeStepsContainer');
+
+            // Статистика практики для начальной школы
+            const elementaryProblemsSolved = document.getElementById('elementaryProblemsSolved');
+            const elementaryCorrectAnswers = document.getElementById('elementaryCorrectAnswers');
+            const elementarySuccessRate = document.getElementById('elementarySuccessRate');
+
+            // Кнопки выбора типа практики для начальной школы
+            const elementaryPracticeTypeButtons = document.querySelectorAll('#elementarySection .practice-type-buttons .practice-btn');
+
+            // Категории средней школы
+            const categoryButtons = document.querySelectorAll('.category-btn');
+            const categoryContents = document.querySelectorAll('.category-content');
+
+            // Практика для средней школы
+            const middlePracticeProblem = document.getElementById('middlePracticeProblem');
+            const middlePracticeAnswer = document.getElementById('middlePracticeAnswer');
+            const middleCheckAnswerButton = document.getElementById('middleCheckAnswer');
+            const middleNextProblemButton = document.getElementById('middleNextProblem');
+            const middlePracticeError = document.getElementById('middlePracticeError');
+            const middlePracticeSuccess = document.getElementById('middlePracticeSuccess');
+            const middlePracticeSolution = document.getElementById('middlePracticeSolution');
+            const middlePracticeMathExpression = document.getElementById('middlePracticeMathExpression');
+            const middlePracticeStepsContainer = document.getElementById('middlePracticeStepsContainer');
+
+            // Статистика практики для средней школы
+            const middleProblemsSolved = document.getElementById('middleProblemsSolved');
+            const middleCorrectAnswers = document.getElementById('middleCorrectAnswers');
+            const middleSuccessRate = document.getElementById('middleSuccessRate');
+
+            // Кнопки выбора типа практики для средней школы
+            const middlePracticeTypeButtons = document.querySelectorAll('#middleSection .practice-type-buttons .practice-btn');
+
+            // Графики функций
+            const graphFunction = document.getElementById('graphFunction');
+            const plotBtn = document.getElementById('plotBtn');
+            const graphCanvas = document.getElementById('graphCanvas');
+            const graphResultContainer = document.getElementById('graphResultContainer');
+            const graphProperties = document.getElementById('graphProperties');
+
+            // Текущие задачи для практики
+            let currentKidsMathProblem = null;
+            let currentKidsComparisonProblem = null;
+            let currentElementaryProblem = null;
+            let currentElementaryPracticeType = 'equations';
+            let currentMiddleProblem = null;
+            let currentMiddlePracticeType = 'mixed';
+
+            // Статистика
+            let elementaryStats = { solved: 0, correct: 0 };
+            let middleStats = { solved: 0, correct: 0 };
+
+            // Функции для отображения решения
+            function displaySolution(mathExpression, stepsContainer, resultContainer, errorMessage, equation, solution) {
+                mathExpression.textContent = equation;
+                stepsContainer.innerHTML = '';
+
+                solution.steps.forEach(step => {
+                    const stepDiv = document.createElement('div');
+                    stepDiv.className = 'step';
+                    stepDiv.textContent = step;
+                    stepsContainer.appendChild(stepDiv);
+                });
+
+                const finalStep = document.createElement('div');
+                finalStep.className = 'step';
+                finalStep.innerHTML = `<strong>Ответ:</strong> ${solution.solution}`;
+                stepsContainer.appendChild(finalStep);
+
+                resultContainer.style.display = 'block';
+                errorMessage.style.display = 'none';
+            }
+
+            function displayError(errorMessage, resultContainer, message) {
+                errorMessage.textContent = message;
+                errorMessage.style.display = 'block';
+                resultContainer.style.display = 'none';
+            }
+
+            // Функции для практики
+            function displayPracticeError(practiceError, practiceSuccess, practiceSolution, message) {
+                practiceError.textContent = message;
+                practiceError.style.display = 'block';
+                practiceSuccess.style.display = 'none';
+                practiceSolution.style.display = 'none';
+            }
+
+            function displayPracticeSuccess(practiceSuccess, practiceError, practiceSolution, message) {
+                practiceSuccess.textContent = message;
+                practiceSuccess.style.display = 'block';
+                practiceError.style.display = 'none';
+                practiceSolution.style.display = 'none';
+            }
+
+            function displayPracticeSolution(practiceMathExpression, practiceStepsContainer, practiceSolution, practiceError, practiceSuccess, equation, solution) {
+                practiceMathExpression.textContent = equation;
+                practiceStepsContainer.innerHTML = '';
+
+                solution.steps.forEach(step => {
+                    const stepDiv = document.createElement('div');
+                    stepDiv.className = 'step';
+                    stepDiv.textContent = step;
+                    practiceStepsContainer.appendChild(stepDiv);
+                });
+
+                const finalStep = document.createElement('div');
+                finalStep.className = 'step';
+                finalStep.innerHTML = `<strong>Правильный ответ:</strong> ${solution.solution}`;
+                practiceStepsContainer.appendChild(finalStep);
+
+                practiceSolution.style.display = 'block';
+                practiceError.style.display = 'none';
+                practiceSuccess.style.display = 'none';
+            }
+
+            // Функции для обновления статистики
+            function updateStats(problemsSolved, correctAnswers, successRate, stats) {
+                problemsSolved.textContent = stats.solved;
+                correctAnswers.textContent = stats.correct;
+
+                const rate = stats.solved > 0 ? Math.round((stats.correct / stats.solved) * 100) : 0;
+                successRate.textContent = `${rate}%`;
+            }
+
+            // Функции для генерации новых задач
+            function generateNewKidsMathProblem() {
+                currentKidsMathProblem = KidsMathGenerator.generateMathProblem();
+                kidsMathProblem.textContent = currentKidsMathProblem.problem;
+                kidsMathAnswer.value = '';
+                kidsMathFeedback.style.display = 'none';
+                kidsMathAnswer.focus();
+            }
+
+            function generateNewKidsComparisonProblem() {
+                currentKidsComparisonProblem = KidsMathGenerator.generateComparisonProblem();
+                kidsComparisonProblem.textContent = currentKidsComparisonProblem.problem;
+                kidsComparisonFeedback.style.display = 'none';
+            }
+
+            function generateNewElementaryProblem() {
+                if (currentElementaryPracticeType === 'equations') {
+                    currentElementaryProblem = ElementaryPracticeGenerator.generateRandomEquation();
+                    elementaryPracticeProblem.textContent = currentElementaryProblem.equation;
+                } else {
+                    // Генерация задачи с единицами измерения
+                    const problemTypes = ['comparison', 'conversion'];
+                    const problemType = problemTypes[Math.floor(Math.random() * problemTypes.length)];
+
+                    if (problemType === 'comparison') {
+                        currentElementaryProblem = UnitsPracticeGenerator.generateComparisonProblem();
+                        elementaryPracticeProblem.textContent = `Сравните: ${currentElementaryProblem.problem}`;
+                    } else {
+                        currentElementaryProblem = UnitsPracticeGenerator.generateConversionProblem();
+                        elementaryPracticeProblem.textContent = currentElementaryProblem.problem;
+                    }
+                }
+
+                elementaryPracticeAnswer.value = '';
+                elementaryPracticeError.style.display = 'none';
+                elementaryPracticeSuccess.style.display = 'none';
+                elementaryPracticeSolution.style.display = 'none';
+            }
+
+            function generateNewMiddleProblem() {
+                currentMiddleProblem = MiddlePracticeGenerator.generateRandomEquation(currentMiddlePracticeType);
+                middlePracticeProblem.textContent = currentMiddleProblem.equation;
+                middlePracticeAnswer.value = '';
+                middlePracticeError.style.display = 'none';
+                middlePracticeSuccess.style.display = 'none';
+                middlePracticeSolution.style.display = 'none';
+            }
+
+            // Функции для проверки ответов
+            function checkKidsMathAnswer() {
+                const userAnswer = parseInt(kidsMathAnswer.value);
+
+                if (isNaN(userAnswer)) {
+                    kidsMathFeedback.textContent = 'Пожалуйста, введите число';
+                    kidsMathFeedback.className = 'kids-feedback incorrect';
+                    kidsMathFeedback.style.display = 'block';
+                    return;
+                }
+
+                if (userAnswer === currentKidsMathProblem.answer) {
+                    kidsMathFeedback.textContent = 'Правильно! Молодец!';
+                    kidsMathFeedback.className = 'kids-feedback correct';
+                    kidsMathFeedback.style.display = 'block';
+                } else {
+                    kidsMathFeedback.textContent = `Неправильно. Правильный ответ: ${currentKidsMathProblem.answer}`;
+                    kidsMathFeedback.className = 'kids-feedback incorrect';
+                    kidsMathFeedback.style.display = 'block';
+                }
+            }
+
+            function checkKidsComparisonAnswer(selectedAnswer) {
+                if (selectedAnswer === currentKidsComparisonProblem.answer) {
+                    kidsComparisonFeedback.textContent = 'Правильно! Молодец!';
+                    kidsComparisonFeedback.className = 'kids-feedback correct';
+                    kidsComparisonFeedback.style.display = 'block';
+                } else {
+                    kidsComparisonFeedback.textContent = `Неправильно. Правильный ответ: ${currentKidsComparisonProblem.a} ${currentKidsComparisonProblem.answer} ${currentKidsComparisonProblem.b}`;
+                    kidsComparisonFeedback.className = 'kids-feedback incorrect';
+                    kidsComparisonFeedback.style.display = 'block';
+                }
+            }
+
+            function checkElementaryAnswer() {
+                const userAnswer = elementaryPracticeAnswer.value.trim();
+
+                if (!userAnswer) {
+                    displayPracticeError(elementaryPracticeError, elementaryPracticeSuccess, elementaryPracticeSolution, 'Пожалуйста, введите ответ');
+                    return;
+                }
+
+                if (!currentElementaryProblem) {
+                    displayPracticeError(elementaryPracticeError, elementaryPracticeSuccess, elementaryPracticeSolution, 'Сначала сгенерируйте задачу');
+                    return;
+                }
+
+                elementaryStats.solved++;
+
+                let isCorrect = false;
+
+                if (currentElementaryPracticeType === 'equations') {
+                    // Проверка уравнения
+                    const normalizedUserAnswer = userAnswer.toLowerCase().replace(/\s/g, '');
+                    const normalizedCorrectAnswer = currentElementaryProblem.solution.solution.toLowerCase().replace(/\s/g, '');
+
+                    isCorrect = normalizedUserAnswer === normalizedCorrectAnswer;
+                } else {
+                    // Проверка единиц измерения
+                    isCorrect = userAnswer === currentElementaryProblem.answer;
+                }
+
+                if (isCorrect) {
+                    elementaryStats.correct++;
+                    displayPracticeSuccess(elementaryPracticeSuccess, elementaryPracticeError, elementaryPracticeSolution, 'Правильно! Отличная работа!');
+                } else {
+                    if (currentElementaryPracticeType === 'equations') {
+                        displayPracticeSolution(
+                            elementaryPracticeMathExpression,
+                            elementaryPracticeStepsContainer,
+                            elementaryPracticeSolution,
+                            elementaryPracticeError,
+                            elementaryPracticeSuccess,
+                            currentElementaryProblem.equation,
+                            currentElementaryProblem.solution
+                        );
+                    } else {
+                        elementaryPracticeSolution.style.display = 'block';
+                        elementaryPracticeMathExpression.textContent = currentElementaryProblem.explanation;
+                        elementaryPracticeStepsContainer.innerHTML = '';
+                    }
+                }
+
+                updateStats(elementaryProblemsSolved, elementaryCorrectAnswers, elementarySuccessRate, elementaryStats);
+            }
+
+            function checkMiddleAnswer() {
+                const userAnswer = middlePracticeAnswer.value.trim();
+
+                if (!userAnswer) {
+                    displayPracticeError(middlePracticeError, middlePracticeSuccess, middlePracticeSolution, 'Пожалуйста, введите ответ');
+                    return;
+                }
+
+                if (!currentMiddleProblem) {
+                    displayPracticeError(middlePracticeError, middlePracticeSuccess, middlePracticeSolution, 'Сначала сгенерируйте уравнение');
+                    return;
+                }
+
+                middleStats.solved++;
+
+                // Нормализуем ответ пользователя и правильный ответ для сравнения
+                const normalizedUserAnswer = userAnswer.toLowerCase().replace(/\s/g, '');
+                const normalizedCorrectAnswer = currentMiddleProblem.solution.solution.toLowerCase().replace(/\s/g, '');
+
+                // Простая проверка совпадения ответов
+                if (normalizedUserAnswer === normalizedCorrectAnswer) {
+                    middleStats.correct++;
+                    displayPracticeSuccess(middlePracticeSuccess, middlePracticeError, middlePracticeSolution, 'Правильно! Отличная работа!');
+                } else {
+                    displayPracticeSolution(
+                        middlePracticeMathExpression,
+                        middlePracticeStepsContainer,
+                        middlePracticeSolution,
+                        middlePracticeError,
+                        middlePracticeSuccess,
+                        currentMiddleProblem.equation,
+                        currentMiddleProblem.solution
+                    );
+                }
+
+                updateStats(middleProblemsSolved, middleCorrectAnswers, middleSuccessRate, middleStats);
+            }
+
+            // Функция для построения графика
+            function plotGraph() {
+                const functionText = graphFunction.value.trim();
+                if (!functionText) return;
+
+                const canvas = graphCanvas;
+                const ctx = canvas.getContext('2d');
+                const width = canvas.width;
+                const height = canvas.height;
+
+                // Очищаем canvas
+                ctx.clearRect(0, 0, width, height);
+
+                // Рисуем оси координат
+                ctx.strokeStyle = '#ccc';
+                ctx.lineWidth = 1;
+
+                // Ось X
+                ctx.beginPath();
+                ctx.moveTo(0, height / 2);
+                ctx.lineTo(width, height / 2);
+                ctx.stroke();
+
+                // Ось Y
+                ctx.beginPath();
+                ctx.moveTo(width / 2, 0);
+                ctx.lineTo(width / 2, height);
+                ctx.stroke();
+
+                // Подписи осей
+                ctx.fillStyle = '#333';
+                ctx.font = '12px Arial';
+                ctx.fillText('x', width - 10, height / 2 - 10);
+                ctx.fillText('y', width / 2 + 10, 10);
+
+                // Рисуем деления на осях
+                ctx.strokeStyle = '#ddd';
+                ctx.lineWidth = 0.5;
+
+                // Деления на оси X
+                for (let x = width / 2 + 50; x < width; x += 50) {
+                    ctx.beginPath();
+                    ctx.moveTo(x, height / 2 - 5);
+                    ctx.lineTo(x, height / 2 + 5);
+                    ctx.stroke();
+
+                    const value = (x - width / 2) / 50;
+                    ctx.fillText(value.toString(), x - 5, height / 2 + 20);
+                }
+
+                for (let x = width / 2 - 50; x > 0; x -= 50) {
+                    ctx.beginPath();
+                    ctx.moveTo(x, height / 2 - 5);
+                    ctx.lineTo(x, height / 2 + 5);
+                    ctx.stroke();
+
+                    const value = (x - width / 2) / 50;
+                    ctx.fillText(value.toString(), x - 5, height / 2 + 20);
+                }
+
+                // Деления на оси Y
+                for (let y = height / 2 + 50; y < height; y += 50) {
+                    ctx.beginPath();
+                    ctx.moveTo(width / 2 - 5, y);
+                    ctx.lineTo(width / 2 + 5, y);
+                    ctx.stroke();
+
+                    const value = (height / 2 - y) / 50;
+                    ctx.fillText(value.toString(), width / 2 + 10, y + 5);
+                }
+
+                for (let y = height / 2 - 50; y > 0; y -= 50) {
+                    ctx.beginPath();
+                    ctx.moveTo(width / 2 - 5, y);
+                    ctx.lineTo(width / 2 + 5, y);
+                    ctx.stroke();
+
+                    const value = (height / 2 - y) / 50;
+                    ctx.fillText(value.toString(), width / 2 + 10, y + 5);
+                }
+
+                // Рисуем график функции
+                ctx.strokeStyle = '#2E86AB';
+                ctx.lineWidth = 2;
+                ctx.beginPath();
+
+                let isFirstPoint = true;
+
+                for (let pixelX = 0; pixelX < width; pixelX++) {
+                    const x = (pixelX - width / 2) / 50;
+                    let y;
+
+                    try {
+                        // Заменяем x в выражении функции
+                        let expression = functionText.replace(/x/g, `(${x})`);
+
+                        // Обрабатываем специальные функции
+                        expression = expression.replace(/sin/g, 'Math.sin');
+                        expression = expression.replace(/cos/g, 'Math.cos');
+                        expression = expression.replace(/tan/g, 'Math.tan');
+                        expression = expression.replace(/sqrt/g, 'Math.sqrt');
+                        expression = expression.replace(/log/g, 'Math.log');
+                        expression = expression.replace(/exp/g, 'Math.exp');
+                        expression = expression.replace(/\^/g, '**');
+
+                        // Вычисляем значение функции
+                        y = eval(expression);
+
+                        const pixelY = height / 2 - y * 50;
+
+                        if (isFirstPoint) {
+                            ctx.moveTo(pixelX, pixelY);
+                            isFirstPoint = false;
+                        } else {
+                            ctx.lineTo(pixelX, pixelY);
+                        }
+                    } catch (e) {
+                        // Пропускаем точки, где функция не определена
+                        isFirstPoint = true;
+                    }
+                }
+
+                ctx.stroke();
+
+                // Показываем свойства функции
+                graphResultContainer.style.display = 'block';
+                graphProperties.innerHTML = `
+                    <div class="step"><strong>Функция:</strong> y = ${functionText}</div>
+                    <div class="step"><strong>Область определения:</strong> все действительные числа</div>
+                    <div class="step"><strong>Область значений:</strong> зависит от функции</div>
+                `;
+            }
+
+            // Функция для конвертации единиц измерения
+            function convertUnits() {
+                const value = parseFloat(unitValue.value);
+                const fromUnit = unitFrom.value;
+                const toUnit = unitTo.value;
+
+                if (isNaN(value)) {
+                    displayError(unitResultContainer, unitResultContainer, 'Пожалуйста, введите числовое значение');
+                    return;
+                }
+
+                try {
+                    const result = UnitsConverter.convert(value, fromUnit, toUnit);
+                    unitMathExpression.textContent = `${value} ${UnitsConverter.names[fromUnit]} = ${result.value.toFixed(6)} ${UnitsConverter.names[toUnit]}`;
+                    unitResultContainer.style.display = 'block';
+
+                    // Добавляем объяснение
+                    const explanationDiv = document.createElement('div');
+                    explanationDiv.className = 'step';
+                    explanationDiv.textContent = result.explanation;
+                    unitResultContainer.appendChild(explanationDiv);
+                } catch (error) {
+                    displayError(unitResultContainer, unitResultContainer, 'Ошибка: ' + error.message);
+                }
+            }
+
+            // Обработчики навигации
+            homeTab.addEventListener('click', function() {
+                homeSection.classList.add('active');
+                littleKidsSection.classList.remove('active');
+                elementarySection.classList.remove('active');
+                middleSection.classList.remove('active');
+                graphSection.classList.remove('active');
+
+                homeTab.classList.add('active');
+                littleKidsTab.classList.remove('active');
+                elementaryTab.classList.remove('active');
+                middleTab.classList.remove('active');
+                graphTab.classList.remove('active');
+            });
+
+            littleKidsTab.addEventListener('click', function() {
+                homeSection.classList.remove('active');
+                littleKidsSection.classList.add('active');
+                elementarySection.classList.remove('active');
+                middleSection.classList.remove('active');
+                graphSection.classList.remove('active');
+
+                homeTab.classList.remove('active');
+                littleKidsTab.classList.add('active');
+                elementaryTab.classList.remove('active');
+                middleTab.classList.remove('active');
+                graphTab.classList.remove('active');
+            });
+
+            elementaryTab.addEventListener('click', function() {
+                homeSection.classList.remove('active');
+                littleKidsSection.classList.remove('active');
+                elementarySection.classList.add('active');
+                middleSection.classList.remove('active');
+                graphSection.classList.remove('active');
+
+                homeTab.classList.remove('active');
+                littleKidsTab.classList.remove('active');
+                elementaryTab.classList.add('active');
+                middleTab.classList.remove('active');
+                graphTab.classList.remove('active');
+            });
+
+            middleTab.addEventListener('click', function() {
+                homeSection.classList.remove('active');
+                littleKidsSection.classList.remove('active');
+                elementarySection.classList.remove('active');
+                middleSection.classList.add('active');
+                graphSection.classList.remove('active');
+
+                homeTab.classList.remove('active');
+                littleKidsTab.classList.remove('active');
+                elementaryTab.classList.remove('active');
+                middleTab.classList.add('active');
+                graphTab.classList.remove('active');
+            });
+
+            graphTab.addEventListener('click', function() {
+                homeSection.classList.remove('active');
+                littleKidsSection.classList.remove('active');
+                elementarySection.classList.remove('active');
+                middleSection.classList.remove('active');
+                graphSection.classList.add('active');
+
+                homeTab.classList.remove('active');
+                littleKidsTab.classList.remove('active');
+                elementaryTab.classList.remove('active');
+                middleTab.classList.remove('active');
+                graphTab.classList.add('active');
+            });
+
+            // Обработчики для карточек на главной странице
+            littleKidsCard.addEventListener('click', function() {
+                homeSection.classList.remove('active');
+                littleKidsSection.classList.add('active');
+                elementarySection.classList.remove('active');
+                middleSection.classList.remove('active');
+                graphSection.classList.remove('active');
+
+                homeTab.classList.remove('active');
+                littleKidsTab.classList.add('active');
+                elementaryTab.classList.remove('active');
+                middleTab.classList.remove('active');
+                graphTab.classList.remove('active');
+            });
+
+            elementaryCard.addEventListener('click', function() {
+                homeSection.classList.remove('active');
+                littleKidsSection.classList.remove('active');
+                elementarySection.classList.add('active');
+                middleSection.classList.remove('active');
+                graphSection.classList.remove('active');
+
+                homeTab.classList.remove('active');
+                littleKidsTab.classList.remove('active');
+                elementaryTab.classList.add('active');
+                middleTab.classList.remove('active');
+                graphTab.classList.remove('active');
+            });
+
+            middleCard.addEventListener('click', function() {
+                homeSection.classList.remove('active');
+                littleKidsSection.classList.remove('active');
+                elementarySection.classList.remove('active');
+                middleSection.classList.add('active');
+                graphSection.classList.remove('active');
+
+                homeTab.classList.remove('active');
+                littleKidsTab.classList.remove('active');
+                elementaryTab.classList.remove('active');
+                middleTab.classList.add('active');
+                graphTab.classList.remove('active');
+            });
+
+            graphCard.addEventListener('click', function() {
+                homeSection.classList.remove('active');
+                littleKidsSection.classList.remove('active');
+                elementarySection.classList.remove('active');
+                middleSection.classList.remove('active');
+                graphSection.classList.add('active');
+
+                homeTab.classList.remove('active');
+                littleKidsTab.classList.remove('active');
+                elementaryTab.classList.remove('active');
+                middleTab.classList.remove('active');
+                graphTab.classList.add('active');
+            });
+
+            // Обработчики для самых маленьких
+            kidsMathCheck.addEventListener('click', checkKidsMathAnswer);
+            kidsMathNext.addEventListener('click', generateNewKidsMathProblem);
+
+            kidsMathAnswer.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    kidsMathCheck.click();
+                }
+            });
+
+            lessBtn.addEventListener('click', function() {
+                checkKidsComparisonAnswer('<');
+            });
+
+            equalBtn.addEventListener('click', function() {
+                checkKidsComparisonAnswer('=');
+            });
+
+            greaterBtn.addEventListener('click', function() {
+                checkKidsComparisonAnswer('>');
+            });
+
+            kidsComparisonNext.addEventListener('click', generateNewKidsComparisonProblem);
+
+            // Обработчики для начальной школы
+            elementarySolveBtn.addEventListener('click', function() {
+                const equation = elementaryInputField.value.trim();
+
+                if (!equation) {
+                    displayError(elementaryErrorMessage, elementaryResultContainer, 'Пожалуйста, введите уравнение');
+                    return;
+                }
+
+                try {
+                    const solution = EquationSolver.parseAndSolve(equation);
+                    displaySolution(
+                        elementaryMathExpression,
+                        elementaryStepsContainer,
+                        elementaryResultContainer,
+                        elementaryErrorMessage,
+                        equation,
+                        solution
+                    );
+                } catch (error) {
+                    displayError(elementaryErrorMessage, elementaryResultContainer, 'Ошибка: ' + error.message);
+                }
+            });
+
+            elementaryInputField.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    elementarySolveBtn.click();
+                }
+            });
+
+            // Обработчики для конвертера единиц измерения
+            convertBtn.addEventListener('click', convertUnits);
+
+            // Обработчики для практики начальной школы
+            elementaryCheckAnswerButton.addEventListener('click', checkElementaryAnswer);
+            elementaryNextProblemButton.addEventListener('click', generateNewElementaryProblem);
+
+            elementaryPracticeAnswer.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    elementaryCheckAnswerButton.click();
+                }
+            });
+
+            // Обработчики для выбора типа практики в начальной школе
+            elementaryPracticeTypeButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    currentElementaryPracticeType = this.getAttribute('data-practice-type');
+                    elementaryPracticeTypeButtons.forEach(btn => btn.classList.remove('active'));
+                    this.classList.add('active');
+                    generateNewElementaryProblem();
+                });
+            });
+
+            // Обработчики для категорий средней школы
+            categoryButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    const category = this.getAttribute('data-category');
+
+                    // Убираем активный класс со всех кнопок и контента
+                    categoryButtons.forEach(btn => btn.classList.remove('active'));
+                    categoryContents.forEach(content => content.classList.remove('active'));
+
+                    // Добавляем активный класс к текущей кнопке и контенту
+                    this.classList.add('active');
+                    document.getElementById(category).classList.add('active');
+                });
+            });
+
+            // Обработчики для калькуляторов средней школы
+            document.querySelectorAll('.calculator-section .solve-btn').forEach(button => {
+                button.addEventListener('click', function() {
+                    const inputField = this.parentElement.querySelector('.input-field');
+                    const equation = inputField.value.trim();
+                    const resultContainer = this.parentElement.parentElement.querySelector('.result-container');
+                    const errorMessage = this.parentElement.querySelector('.error-message');
+                    const mathExpression = resultContainer.querySelector('.math-expression');
+                    const stepsContainer = resultContainer.querySelector('.steps');
+
+                    if (!equation) {
+                        displayError(errorMessage, resultContainer, 'Пожалуйста, введите уравнение или неравенство');
+                        return;
+                    }
+
+                    try {
+                        const solution = EquationSolver.parseAndSolve(equation);
+                        displaySolution(
+                            mathExpression,
+                            stepsContainer,
+                            resultContainer,
+                            errorMessage,
+                            equation,
+                            solution
+                        );
+                    } catch (error) {
+                        displayError(errorMessage, resultContainer, 'Ошибка: ' + error.message);
+                    }
+                });
+            });
+
+            // Обработчики для полей ввода калькуляторов средней школы
+            document.querySelectorAll('.calculator-section .input-field').forEach(input => {
+                input.addEventListener('keypress', function(e) {
+                    if (e.key === 'Enter') {
+                        this.parentElement.querySelector('.solve-btn').click();
+                    }
+                });
+            });
+
+            // Обработчики для примеров уравнений в средней школе
+            document.querySelectorAll('.examples-list li').forEach(example => {
+                example.addEventListener('click', function() {
+                    const inputField = this.closest('.calculator-section').querySelector('.input-field');
+                    if (inputField) {
+                        inputField.value = this.textContent;
+                        inputField.parentElement.querySelector('.solve-btn').click();
+                    }
+                });
+            });
+
+            // Обработчики для практики средней школы
+            middleCheckAnswerButton.addEventListener('click', checkMiddleAnswer);
+            middleNextProblemButton.addEventListener('click', generateNewMiddleProblem);
+
+            middlePracticeAnswer.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    middleCheckAnswerButton.click();
+                }
+            });
+
+            // Обработчики для выбора типа практики в средней школе
+            middlePracticeTypeButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    currentMiddlePracticeType = this.getAttribute('data-practice-type');
+                    middlePracticeTypeButtons.forEach(btn => btn.classList.remove('active'));
+                    this.classList.add('active');
+                    generateNewMiddleProblem();
+                });
+            });
+
+            // Обработчики для построения графиков
+            plotBtn.addEventListener('click', plotGraph);
+
+            graphFunction.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    plotBtn.click();
+                }
+            });
+
+            // Обработчики для примеров функций
+            document.querySelectorAll('#graphSection .examples-list li').forEach(example => {
+                example.addEventListener('click', function() {
+                    graphFunction.value = this.textContent.replace('y = ', '');
+                    plotBtn.click();
+                });
+            });
+
+            // Инициализация
+            generateNewKidsMathProblem();
+            generateNewKidsComparisonProblem();
+            generateNewElementaryProblem();
+            generateNewMiddleProblem();
+            updateStats(elementaryProblemsSolved, elementaryCorrectAnswers, elementarySuccessRate, elementaryStats);
+            updateStats(middleProblemsSolved, middleCorrectAnswers, middleSuccessRate, middleStats);
+
+            // Активируем первые кнопки типов практики
+            if (elementaryPracticeTypeButtons.length > 0) {
+                elementaryPracticeTypeButtons[0].classList.add('active');
+            }
+
+            if (middlePracticeTypeButtons.length > 0) {
+                middlePracticeTypeButtons[0].classList.add('active');
+            }
+
+            // Строим начальный график
+            plotGraph();
+        });
+    </script>
+</body>
+</html>
