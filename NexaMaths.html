@@ -15,6 +15,7 @@
             --white: #FFFFFF;
             --success-color: #4CAF50;
             --warning-color: #FF9800;
+            --error-color: #f44336;
         }
 
         * {
@@ -193,6 +194,24 @@
             padding-bottom: 10px;
         }
 
+        .warning-badge {
+            background-color: var(--error-color);
+            color: white;
+            padding: 5px 10px;
+            border-radius: 4px;
+            font-size: 14px;
+            font-weight: bold;
+            display: inline-block;
+            margin-left: 10px;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { opacity: 1; }
+            50% { opacity: 0.7; }
+            100% { opacity: 1; }
+        }
+
         /* Middle School Category Navigation */
         .category-nav {
             display: flex;
@@ -221,6 +240,27 @@
         .category-btn:hover {
             background-color: var(--primary-color);
             color: white;
+        }
+
+        .category-btn.disabled {
+            background-color: #cccccc;
+            color: #666666;
+            cursor: not-allowed;
+            position: relative;
+        }
+
+        .category-btn.disabled::after {
+            content: "В разработке";
+            position: absolute;
+            top: -20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: var(--warning-color);
+            color: white;
+            padding: 2px 5px;
+            border-radius: 3px;
+            font-size: 10px;
+            white-space: nowrap;
         }
 
         /* Category Content */
@@ -282,6 +322,42 @@
             margin: 10px 0;
             font-family: 'Courier New', monospace;
             text-align: center;
+        }
+
+        /* Units Converter Tabs */
+        .units-tabs {
+            display: flex;
+            margin-bottom: 20px;
+            border-bottom: 1px solid var(--light-gray);
+        }
+
+        .unit-tab {
+            padding: 10px 20px;
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+            color: var(--text-color);
+            border-bottom: 3px solid transparent;
+            transition: all 0.3s;
+        }
+
+        .unit-tab.active {
+            color: var(--primary-color);
+            border-bottom: 3px solid var(--primary-color);
+            font-weight: 600;
+        }
+
+        .unit-tab:hover {
+            color: var(--primary-color);
+        }
+
+        .unit-content {
+            display: none;
+        }
+
+        .unit-content.active {
+            display: block;
         }
 
         /* Calculator Styles */
@@ -383,7 +459,7 @@
         }
 
         .error-message {
-            color: #d32f2f;
+            color: var(--error-color);
             margin-top: 10px;
             padding: 10px;
             background-color: #ffebee;
@@ -549,7 +625,7 @@
 
         .kids-feedback.incorrect {
             background-color: #ffebee;
-            color: #d32f2f;
+            color: var(--error-color);
         }
 
         /* Graph Section */
@@ -685,6 +761,21 @@
             .converter-container {
                 flex-direction: column;
             }
+
+            .units-tabs {
+                flex-direction: column;
+            }
+
+            .unit-tab {
+                width: 100%;
+                text-align: center;
+                border-bottom: 1px solid var(--light-gray);
+                border-radius: 0;
+            }
+
+            .unit-tab.active {
+                border-bottom: 3px solid var(--primary-color);
+            }
         }
     </style>
 </head>
@@ -700,7 +791,7 @@
                     <li><a id="littleKidsTab">Для самых маленьких</a></li>
                     <li><a id="elementaryTab">Начальная школа</a></li>
                     <li><a id="middleTab">Средняя школа</a></li>
-                    <li><a id="graphTab">Графики функций</a></li>
+                    <li><a id="graphTab">Графики функций <span class="warning-badge">Бета-тест</span></a></li>
                 </ul>
             </nav>
         </div>
@@ -822,73 +913,140 @@
                 </div>
             </div>
 
+            <!-- Обновленный раздел для единиц измерения -->
             <div class="subsection">
-                <h3>Теория: Единицы измерения</h3>
-                <div class="theory-content">
-                    <p>Единицы измерения помогают нам измерять различные величины: длину, массу, время и другие.</p>
+                <h3>Калькуляторы единиц измерения</h3>
 
-                    <h4>Единицы длины</h4>
-                    <ul>
-                        <li>1 метр (м) = 100 сантиметров (см)</li>
-                        <li>1 сантиметр (см) = 10 миллиметров (мм)</li>
-                        <li>1 километр (км) = 1000 метров (м)</li>
-                    </ul>
-
-                    <h4>Единицы массы</h4>
-                    <ul>
-                        <li>1 килограмм (кг) = 1000 граммов (г)</li>
-                        <li>1 грамм (г) = 1000 миллиграммов (мг)</li>
-                    </ul>
-
-                    <h4>Единицы времени</h4>
-                    <ul>
-                        <li>1 час = 60 минут</li>
-                        <li>1 минута = 60 секунд</li>
-                        <li>1 сутки = 24 часа</li>
-                    </ul>
-
-                    <div class="example">
-                        <h4>Пример: Перевод единиц</h4>
-                        <p>Сколько минут в 2 часах?</p>
-                        <p><strong>Решение:</strong> 1 час = 60 минут, значит 2 часа = 2 × 60 = 120 минут</p>
-                        <p><strong>Ответ:</strong> 120 минут</p>
-                    </div>
-                </div>
-            </div>
-
-            <div class="subsection">
-                <h3>Калькулятор единиц измерения</h3>
-                <div class="converter-container">
-                    <div class="converter-input">
-                        <input type="number" class="input-field" id="unitValue" placeholder="Введите значение" value="1">
-                    </div>
-                    <select class="converter-select" id="unitFrom">
-                        <option value="m">Метры (м)</option>
-                        <option value="cm">Сантиметры (см)</option>
-                        <option value="km">Километры (км)</option>
-                        <option value="kg">Килограммы (кг)</option>
-                        <option value="g">Граммы (г)</option>
-                        <option value="h">Часы (ч)</option>
-                        <option value="min">Минуты (мин)</option>
-                        <option value="s">Секунды (с)</option>
-                    </select>
-                    <span>→</span>
-                    <select class="converter-select" id="unitTo">
-                        <option value="cm">Сантиметры (см)</option>
-                        <option value="m">Метры (м)</option>
-                        <option value="km">Километры (км)</option>
-                        <option value="g">Граммы (г)</option>
-                        <option value="kg">Килограммы (кг)</option>
-                        <option value="min">Минуты (мин)</option>
-                        <option value="h">Часы (ч)</option>
-                        <option value="s">Секунды (с)</option>
-                    </select>
-                    <button class="solve-btn" id="convertBtn">Перевести</button>
+                <!-- Табы для выбора типа единиц -->
+                <div class="units-tabs">
+                    <button class="unit-tab active" data-unit-type="time">Время</button>
+                    <button class="unit-tab" data-unit-type="weight">Вес</button>
+                    <button class="unit-tab" data-unit-type="length">Расстояние</button>
                 </div>
 
-                <div class="result-container" id="unitResultContainer">
-                    <h3>Результат:</h3>
-                    <div class="math-expression" id="unitMathExpression"></div>
+                <!-- Контент для времени -->
+                <div id="time-content" class="unit-content active">
+                    <div class="theory-content">
+                        <h4>Теория: Единицы измерения времени</h4>
+                        <p>Время измеряется в секундах, минутах и часах. Это важно знать, чтобы планировать свой день!</p>
+                        <ul>
+                            <li>1 минута = 60 секунд</li>
+                            <li>1 час = 60 минут</li>
+                            <li>1 час = 3600 секунд</li>
+                            <li>1 сутки = 24 часа</li>
+                        </ul>
+                        <div class="example">
+                            <h4>Пример:</h4>
+                            <p>Сколько секунд в 2 минутах?</p>
+                            <p><strong>Решение:</strong> 2 минуты × 60 = 120 секунд</p>
+                        </div>
+                    </div>
+
+                    <div class="converter-container">
+                        <div class="converter-input">
+                            <input type="number" class="input-field" id="timeValue" placeholder="Введите значение" value="1">
+                        </div>
+                        <select class="converter-select" id="timeFrom">
+                            <option value="s">Секунды (с)</option>
+                            <option value="min">Минуты (мин)</option>
+                            <option value="h">Часы (ч)</option>
+                        </select>
+                        <span>→</span>
+                        <select class="converter-select" id="timeTo">
+                            <option value="min">Минуты (мин)</option>
+                            <option value="s">Секунды (с)</option>
+                            <option value="h">Часы (ч)</option>
+                        </select>
+                        <button class="solve-btn" id="convertTimeBtn">Перевести</button>
+                    </div>
+
+                    <div class="result-container" id="timeResultContainer">
+                        <h3>Результат:</h3>
+                        <div class="math-expression" id="timeMathExpression"></div>
+                    </div>
+                </div>
+
+                <!-- Контент для веса -->
+                <div id="weight-content" class="unit-content">
+                    <div class="theory-content">
+                        <h4>Теория: Единицы измерения веса</h4>
+                        <p>Вес показывает, насколько что-то тяжелое. Мы измеряем вес в граммах, килограммах и тоннах.</p>
+                        <ul>
+                            <li>1 килограмм = 1000 граммов</li>
+                            <li>1 грамм = 1000 миллиграммов</li>
+                            <li>1 тонна = 1000 килограммов</li>
+                        </ul>
+                        <div class="example">
+                            <h4>Пример:</h4>
+                            <p>Сколько граммов в 3 килограммах?</p>
+                            <p><strong>Решение:</strong> 3 кг × 1000 = 3000 граммов</p>
+                        </div>
+                    </div>
+
+                    <div class="converter-container">
+                        <div class="converter-input">
+                            <input type="number" class="input-field" id="weightValue" placeholder="Введите значение" value="1">
+                        </div>
+                        <select class="converter-select" id="weightFrom">
+                            <option value="g">Граммы (г)</option>
+                            <option value="kg">Килограммы (кг)</option>
+                        </select>
+                        <span>→</span>
+                        <select class="converter-select" id="weightTo">
+                            <option value="kg">Килограммы (кг)</option>
+                            <option value="g">Граммы (г)</option>
+                        </select>
+                        <button class="solve-btn" id="convertWeightBtn">Перевести</button>
+                    </div>
+
+                    <div class="result-container" id="weightResultContainer">
+                        <h3>Результат:</h3>
+                        <div class="math-expression" id="weightMathExpression"></div>
+                    </div>
+                </div>
+
+                <!-- Контент для расстояния -->
+                <div id="length-content" class="unit-content">
+                    <div class="theory-content">
+                        <h4>Теория: Единицы измерения расстояния</h4>
+                        <p>Расстояние показывает, как далеко один предмет от другого. Мы измеряем расстояние в миллиметрах, сантиметрах, метрах и километрах.</p>
+                        <ul>
+                            <li>1 сантиметр = 10 миллиметров</li>
+                            <li>1 метр = 100 сантиметров</li>
+                            <li>1 километр = 1000 метров</li>
+                            <li>1 метр = 1000 миллиметров</li>
+                        </ul>
+                        <div class="example">
+                            <h4>Пример:</h4>
+                            <p>Сколько сантиметров в 2 метрах?</p>
+                            <p><strong>Решение:</strong> 2 м × 100 = 200 сантиметров</p>
+                        </div>
+                    </div>
+
+                    <div class="converter-container">
+                        <div class="converter-input">
+                            <input type="number" class="input-field" id="lengthValue" placeholder="Введите значение" value="1">
+                        </div>
+                        <select class="converter-select" id="lengthFrom">
+                            <option value="mm">Миллиметры (мм)</option>
+                            <option value="cm">Сантиметры (см)</option>
+                            <option value="m">Метры (м)</option>
+                            <option value="km">Километры (км)</option>
+                        </select>
+                        <span>→</span>
+                        <select class="converter-select" id="lengthTo">
+                            <option value="cm">Сантиметры (см)</option>
+                            <option value="mm">Миллиметры (мм)</option>
+                            <option value="m">Метры (м)</option>
+                            <option value="km">Километры (км)</option>
+                        </select>
+                        <button class="solve-btn" id="convertLengthBtn">Перевести</button>
+                    </div>
+
+                    <div class="result-container" id="lengthResultContainer">
+                        <h3>Результат:</h3>
+                        <div class="math-expression" id="lengthMathExpression"></div>
+                    </div>
                 </div>
             </div>
 
@@ -914,7 +1072,9 @@
                         <h4>Выберите тип задач для практики:</h4>
                         <div class="practice-type-buttons">
                             <button class="practice-btn" data-practice-type="equations">Уравнения</button>
-                            <button class="practice-btn" data-practice-type="units">Единицы измерения</button>
+                            <button class="practice-btn" data-practice-type="time">Единицы времени</button>
+                            <button class="practice-btn" data-practice-type="weight">Единицы веса</button>
+                            <button class="practice-btn" data-practice-type="length">Единицы расстояния</button>
                         </div>
                     </div>
 
@@ -951,8 +1111,8 @@
                 <button class="category-btn active" data-category="quadratic">Квадратные уравнения</button>
                 <button class="category-btn" data-category="linear-inequality">Линейные неравенства</button>
                 <button class="category-btn" data-category="quadratic-inequality">Квадратные неравенства</button>
-                <button class="category-btn" data-category="rational">Дробно-рациональные уравнения</button>
-                <button class="category-btn" data-category="systems">Системы уравнений</button>
+                <button class="category-btn disabled" data-category="rational">Дробно-рациональные уравнения</button>
+                <button class="category-btn disabled" data-category="systems">Системы уравнений</button>
             </div>
 
             <!-- Категория: Квадратные уравнения -->
@@ -1061,10 +1221,124 @@
                 </div>
             </div>
 
-            <!-- Остальные категории средней школы -->
-            <!-- ... (код для остальных категорий аналогичен) ... -->
+            <!-- Категория: Квадратные неравенства -->
+            <div id="quadratic-inequality" class="category-content">
+                <div class="subsection">
+                    <h3>Теория: Квадратные неравенства</h3>
+                    <div class="theory-content">
+                        <p><strong>Квадратные неравенства</strong> - это неравенства вида ax² + bx + c > 0, ax² + bx + c < 0, ax² + bx + c ≥ 0, ax² + bx + c ≤ 0, где a ≠ 0.</p>
 
-            <!-- Практика для средней школы -->
+                        <p><strong>Метод решения:</strong></p>
+                        <ol>
+                            <li>Находим корни квадратного уравнения ax² + bx + c = 0</li>
+                            <li>Отмечаем эти корни на числовой прямой</li>
+                            <li>Определяем знаки выражения на полученных интервалах</li>
+                            <li>Выбираем интервалы, удовлетворяющие неравенству</li>
+                        </ol>
+
+                        <div class="example">
+                            <h4>Пример: Квадратное неравенство</h4>
+                            <p>Решим неравенство: x² - 5x + 6 > 0</p>
+                            <p><strong>Шаг 1:</strong> Находим корни уравнения: x² - 5x + 6 = 0 → x₁ = 2, x₂ = 3</p>
+                            <p><strong>Шаг 2:</strong> Отмечаем точки 2 и 3 на числовой прямой: ---2---3---</p>
+                            <p><strong>Шаг 3:</strong> Определяем знаки:
+                                <br>При x < 2: (+)(+) > 0 → +
+                                <br>При 2 < x < 3: (-)(+) < 0 → -
+                                <br>При x > 3: (-)(-) > 0 → +
+                            </p>
+                            <p><strong>Шаг 4:</strong> Так как неравенство > 0, выбираем интервалы с плюсом: x ∈ (-∞, 2) ∪ (3, ∞)</p>
+                            <p><strong>Ответ:</strong> x < 2 или x > 3</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="subsection">
+                    <h3>Калькулятор квадратных неравенств</h3>
+                    <div class="calculator-section">
+                        <div class="calculator-main">
+                            <div class="input-container">
+                                <input type="text" class="input-field" placeholder="Введите квадратное неравенство (например: x^2 - 5x + 6 > 0)">
+                                <button class="solve-btn">Решить</button>
+                                <div class="error-message" id="quadraticInequalityErrorMessage"></div>
+                            </div>
+
+                            <div class="result-container" id="quadraticInequalityResultContainer">
+                                <h3>Решение:</h3>
+                                <div class="math-expression" id="quadraticInequalityMathExpression"></div>
+                                <div class="steps" id="quadraticInequalityStepsContainer">
+                                    <!-- Шаги решения будут добавлены здесь -->
+                                </div>
+                            </div>
+                        </div>
+
+                        <aside class="sidebar">
+                            <h3>Примеры квадратных неравенств</h3>
+                            <ul class="examples-list">
+                                <li>x^2 - 5x + 6 > 0</li>
+                                <li>x^2 - 4 ≤ 0</li>
+                                <li>2x^2 + 3x - 2 < 0</li>
+                                <li>x^2 + 4x + 4 ≥ 0</li>
+                                <li>3x^2 - 7x + 2 > 0</li>
+                            </ul>
+                        </aside>
+                    </div>
+                </div>
+
+                <div class="subsection">
+                    <h3>Практика: Квадратные неравенства</h3>
+                    <div class="practice-container">
+                        <div class="practice-problem" id="quadraticInequalityPracticeProblem">
+                            <!-- Сгенерированное неравенство будет здесь -->
+                        </div>
+
+                        <div class="input-container">
+                            <input type="text" class="input-field" id="quadraticInequalityPracticeAnswer" placeholder="Введите ответ (например: x < 2 или x > 3)">
+                            <button class="practice-btn check-btn" id="quadraticInequalityCheckAnswer">Проверить</button>
+                            <button class="practice-btn next-btn" id="quadraticInequalityNextProblem">Следующее неравенство</button>
+                        </div>
+
+                        <div class="error-message" id="quadraticInequalityPracticeError"></div>
+                        <div class="success-message" id="quadraticInequalityPracticeSuccess"></div>
+
+                        <div class="result-container" id="quadraticInequalityPracticeSolution">
+                            <h3>Решение:</h3>
+                            <div class="math-expression" id="quadraticInequalityPracticeMathExpression"></div>
+                            <div class="steps" id="quadraticInequalityPracticeStepsContainer">
+                                <!-- Шаги решения будут добавлены здесь -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Категория: Дробно-рациональные уравнения -->
+            <div id="rational" class="category-content">
+                <div class="subsection">
+                    <h3>Дробно-рациональные уравнения</h3>
+                    <div class="theory-content">
+                        <p>Этот раздел находится в разработке. Скоро здесь появится теория, калькулятор и практика по дробно-рациональным уравнениям.</p>
+                        <p>Дробно-рациональные уравнения - это уравнения, содержащие дроби, в знаменателях которых есть переменные.</p>
+                        <p>Пример: (x+1)/(x-2) = 3</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Категория: Системы уравнений -->
+            <div id="systems" class="category-content">
+                <div class="subsection">
+                    <h3>Системы уравнений</h3>
+                    <div class="theory-content">
+                        <p>Этот раздел находится в разработке. Скоро здесь появится теория, калькулятор и практика по системам уравнений.</p>
+                        <p>Системы уравнений - это набор из двух или более уравнений с несколькими переменными, которые нужно решить одновременно.</p>
+                        <p>Пример:
+                            <br>2x + y = 5
+                            <br>x - y = 1
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Общая практика для средней школы -->
             <div class="subsection">
                 <h3>Практика</h3>
                 <div class="practice-container">
@@ -1088,6 +1362,7 @@
                         <div class="practice-type-buttons">
                             <button class="practice-btn" data-practice-type="quadratic">Квадратные уравнения</button>
                             <button class="practice-btn" data-practice-type="linear-inequality">Линейные неравенства</button>
+                            <button class="practice-btn" data-practice-type="quadratic-inequality">Квадратные неравенства</button>
                             <button class="practice-btn" data-practice-type="mixed">Случайные задачи</button>
                         </div>
                     </div>
@@ -1118,7 +1393,7 @@
 
         <!-- Раздел построения графиков функций -->
         <section id="graphSection" class="section">
-            <h2>Построение графиков функций</h2>
+            <h2>Построение графиков функций <span class="warning-badge">Бета-тест: возможны неточности</span></h2>
 
             <div class="subsection">
                 <h3>Построитель графиков</h3>
@@ -1141,7 +1416,7 @@
 
             <div class="subsection">
                 <h3>Примеры функций</h3>
-                <div class="examples-list">
+                <ul class="examples-list">
                     <li>y = x</li>
                     <li>y = x^2</li>
                     <li>y = sin(x)</li>
@@ -1150,7 +1425,7 @@
                     <li>y = sqrt(x)</li>
                     <li>y = log(x)</li>
                     <li>y = 2^x</li>
-                </div>
+                </ul>
             </div>
         </section>
     </div>
@@ -1244,6 +1519,157 @@
                     steps.push(`x₂ = (-b - √D) / (2a) = (${-b} - ${sqrtD.toFixed(2)}) / (2·${a}) = ${x2.toFixed(2)}`);
                     return {
                         solution: `x₁ = ${x1.toFixed(2)}, x₂ = ${x2.toFixed(2)}`,
+                        steps: steps
+                    };
+                }
+            },
+
+            // Решение квадратного неравенства
+            solveQuadraticInequality: function(a, b, c, sign, equationStr = "") {
+                const steps = [];
+
+                if (equationStr) {
+                    steps.push(`Исходное неравенство: ${equationStr}`);
+                } else {
+                    steps.push(`Исходное неравенство: ${a}x² ${b >= 0 ? '+' : ''} ${b}x ${c >= 0 ? '+' : ''} ${c} ${sign} 0`);
+                }
+
+                // Находим корни квадратного уравнения
+                const discriminant = b * b - 4 * a * c;
+                steps.push(`Находим дискриминант: D = b² - 4ac = ${b}² - 4·${a}·${c} = ${discriminant}`);
+
+                if (discriminant < 0) {
+                    // Нет действительных корней
+                    if (a > 0) {
+                        // Парабола полностью выше оси X
+                        if (sign === '>' || sign === '>=') {
+                            steps.push("Парабола направлена вверх и не пересекает ось X, значит выражение всегда положительно");
+                            return {
+                                solution: "x - любое число",
+                                steps: steps
+                            };
+                        } else {
+                            steps.push("Парабола направлена вверх и не пересекает ось X, значит выражение никогда не отрицательно");
+                            return {
+                                solution: "Нет решений",
+                                steps: steps
+                            };
+                        }
+                    } else {
+                        // Парабола полностью ниже оси X
+                        if (sign === '<' || sign === '<=') {
+                            steps.push("Парабола направлена вниз и не пересекает ось X, значит выражение всегда отрицательно");
+                            return {
+                                solution: "x - любое число",
+                                steps: steps
+                            };
+                        } else {
+                            steps.push("Парабола направлена вниз и не пересекает ось X, значит выражение никогда не положительно");
+                            return {
+                                solution: "Нет решений",
+                                steps: steps
+                            };
+                        }
+                    }
+                } else if (discriminant === 0) {
+                    // Один корень
+                    const x = -b / (2 * a);
+                    steps.push(`Уравнение имеет один корень: x = ${x}`);
+
+                    if (sign === '>') {
+                        if (a > 0) {
+                            return {
+                                solution: `x ≠ ${x}`,
+                                steps: steps
+                            };
+                        } else {
+                            return {
+                                solution: "Нет решений",
+                                steps: steps
+                            };
+                        }
+                    } else if (sign === '>=') {
+                        if (a > 0) {
+                            return {
+                                solution: "x - любое число",
+                                steps: steps
+                            };
+                        } else {
+                            return {
+                                solution: `x = ${x}`,
+                                steps: steps
+                            };
+                        }
+                    } else if (sign === '<') {
+                        if (a > 0) {
+                            return {
+                                solution: "Нет решений",
+                                steps: steps
+                            };
+                        } else {
+                            return {
+                                solution: `x ≠ ${x}`,
+                                steps: steps
+                            };
+                        }
+                    } else if (sign === '<=') {
+                        if (a > 0) {
+                            return {
+                                solution: `x = ${x}`,
+                                steps: steps
+                            };
+                        } else {
+                            return {
+                                solution: "x - любое число",
+                                steps: steps
+                            };
+                        }
+                    }
+                } else {
+                    // Два корня
+                    const sqrtD = Math.sqrt(discriminant);
+                    const x1 = (-b + sqrtD) / (2 * a);
+                    const x2 = (-b - sqrtD) / (2 * a);
+                    const minX = Math.min(x1, x2);
+                    const maxX = Math.max(x1, x2);
+
+                    steps.push(`Уравнение имеет два корня: x₁ = ${x1.toFixed(2)}, x₂ = ${x2.toFixed(2)}`);
+
+                    let solution;
+                    if (a > 0) {
+                        // Парабола направлена вверх
+                        if (sign === '>') {
+                            solution = `x < ${minX.toFixed(2)} или x > ${maxX.toFixed(2)}`;
+                            steps.push(`Парабола направлена вверх, положительна вне корней: x < ${minX.toFixed(2)} или x > ${maxX.toFixed(2)}`);
+                        } else if (sign === '>=') {
+                            solution = `x ≤ ${minX.toFixed(2)} или x ≥ ${maxX.toFixed(2)}`;
+                            steps.push(`Парабола направлена вверх, неотрицательна вне корней (включая корни): x ≤ ${minX.toFixed(2)} или x ≥ ${maxX.toFixed(2)}`);
+                        } else if (sign === '<') {
+                            solution = `${minX.toFixed(2)} < x < ${maxX.toFixed(2)}`;
+                            steps.push(`Парабола направлена вверх, отрицательна между корнями: ${minX.toFixed(2)} < x < ${maxX.toFixed(2)}`);
+                        } else if (sign === '<=') {
+                            solution = `${minX.toFixed(2)} ≤ x ≤ ${maxX.toFixed(2)}`;
+                            steps.push(`Парабола направлена вверх, неположительна между корнями (включая корни): ${minX.toFixed(2)} ≤ x ≤ ${maxX.toFixed(2)}`);
+                        }
+                    } else {
+                        // Парабола направлена вниз
+                        if (sign === '>') {
+                            solution = `${minX.toFixed(2)} < x < ${maxX.toFixed(2)}`;
+                            steps.push(`Парабола направлена вниз, положительна между корнями: ${minX.toFixed(2)} < x < ${maxX.toFixed(2)}`);
+                        } else if (sign === '>=') {
+                            solution = `${minX.toFixed(2)} ≤ x ≤ ${maxX.toFixed(2)}`;
+                            steps.push(`Парабола направлена вниз, неотрицательна между корнями (включая корни): ${minX.toFixed(2)} ≤ x ≤ ${maxX.toFixed(2)}`);
+                        } else if (sign === '<') {
+                            solution = `x < ${minX.toFixed(2)} или x > ${maxX.toFixed(2)}`;
+                            steps.push(`Парабола направлена вниз, отрицательна вне корней: x < ${minX.toFixed(2)} или x > ${maxX.toFixed(2)}`);
+                        } else if (sign === '<=') {
+                            solution = `x ≤ ${minX.toFixed(2)} или x ≥ ${maxX.toFixed(2)}`;
+                            steps.push(`Парабола направлена вниз, неположительна вне корней (включая корни): x ≤ ${minX.toFixed(2)} или x ≥ ${maxX.toFixed(2)}`);
+                        }
+                    }
+
+                    return {
+                        solution: solution,
                         steps: steps
                     };
                 }
@@ -1386,15 +1812,16 @@
                     }
 
                     // Инициализируем коэффициенты
-                    let a = 0, b = 0;
+                    let a = 0, b = 0, c = 0;
 
                     // Регулярные выражения для поиска членов уравнения
+                    const quadraticPattern = /([+-]?)(\d*\.?\d*)x\^2/g;
                     const linearPattern = /([+-]?)(\d*\.?\d*)x(?!\^)/g;
                     const constantPattern = /([+-]?)(\d*\.?\d+)(?!.*x)/g;
 
-                    // Обрабатываем линейные члены
+                    // Обрабатываем квадратичные члены
                     let match;
-                    while ((match = linearPattern.exec(left)) !== null) {
+                    while ((match = quadraticPattern.exec(left)) !== null) {
                         const sign = match[1];
                         let coeff = match[2];
 
@@ -1402,6 +1829,17 @@
                         if (sign === '-') value = -value;
 
                         a += value;
+                    }
+
+                    // Обрабатываем линейные члены
+                    while ((match = linearPattern.exec(left)) !== null) {
+                        const sign = match[1];
+                        let coeff = match[2];
+
+                        let value = coeff === '' ? 1 : parseFloat(coeff);
+                        if (sign === '-') value = -value;
+
+                        b += value;
                     }
 
                     // Обрабатываем константы
@@ -1412,10 +1850,44 @@
                         let value = parseFloat(coeff);
                         if (sign === '-') value = -value;
 
-                        b += value;
+                        c += value;
                     }
 
-                    return this.solveLinearInequality(a, b, inequalitySign, originalEquation);
+                    // Определение типа неравенства и решение
+                    if (a !== 0) {
+                        return this.solveQuadraticInequality(a, b, c, inequalitySign, originalEquation);
+                    } else if (b !== 0) {
+                        return this.solveLinearInequality(b, c, inequalitySign, originalEquation);
+                    } else {
+                        if (c === 0) {
+                            if (inequalitySign === '>=' || inequalitySign === '<=') {
+                                return {
+                                    solution: "x - любое число",
+                                    steps: [`Исходное неравенство: ${originalEquation}`, "Неравенство 0 ≥ 0 или 0 ≤ 0 верно для любого x"]
+                                };
+                            } else {
+                                return {
+                                    solution: "Нет решений",
+                                    steps: [`Исходное неравенство: ${originalEquation}`, "Неравенство 0 > 0 или 0 < 0 не имеет решений"]
+                                };
+                            }
+                        } else {
+                            if ((inequalitySign === '>' && c > 0) ||
+                                (inequalitySign === '>=' && c >= 0) ||
+                                (inequalitySign === '<' && c < 0) ||
+                                (inequalitySign === '<=' && c <= 0)) {
+                                return {
+                                    solution: "x - любое число",
+                                    steps: [`Исходное неравенство: ${originalEquation}`, `Неравенство ${c} ${inequalitySign} 0 верно для любого x`]
+                                };
+                            } else {
+                                return {
+                                    solution: "Нет решений",
+                                    steps: [`Исходное неравенство: ${originalEquation}`, `Неравенство ${c} ${inequalitySign} 0 не имеет решений`]
+                                };
+                            }
+                        }
+                    }
                 } else {
                     // Это уравнение
                     const parts = equation.split('=');
@@ -1499,6 +1971,78 @@
             }
         };
 
+        // Конвертер единиц измерения (разделенный по категориям)
+        const UnitsConverter = {
+            // Время
+            timeFactors: {
+                's': 1,
+                'min': 60,
+                'h': 3600
+            },
+            timeNames: {
+                's': 'секунд',
+                'min': 'минут',
+                'h': 'часов'
+            },
+
+            // Вес
+            weightFactors: {
+                'g': 1,
+                'kg': 1000
+            },
+            weightNames: {
+                'g': 'грамм',
+                'kg': 'килограмм'
+            },
+
+            // Длина
+            lengthFactors: {
+                'mm': 1,
+                'cm': 10,
+                'm': 1000,
+                'km': 1000000
+            },
+            lengthNames: {
+                'mm': 'миллиметров',
+                'cm': 'сантиметров',
+                'm': 'метров',
+                'km': 'километров'
+            },
+
+            // Преобразование времени
+            convertTime: function(value, fromUnit, toUnit) {
+                const baseValue = value * this.timeFactors[fromUnit];
+                const result = baseValue / this.timeFactors[toUnit];
+
+                return {
+                    value: result,
+                    explanation: `${value} ${this.timeNames[fromUnit]} = ${value} × ${this.timeFactors[fromUnit]} / ${this.timeFactors[toUnit]} = ${result.toFixed(6)} ${this.timeNames[toUnit]}`
+                };
+            },
+
+            // Преобразование веса
+            convertWeight: function(value, fromUnit, toUnit) {
+                const baseValue = value * this.weightFactors[fromUnit];
+                const result = baseValue / this.weightFactors[toUnit];
+
+                return {
+                    value: result,
+                    explanation: `${value} ${this.weightNames[fromUnit]} = ${value} × ${this.weightFactors[fromUnit]} / ${this.weightFactors[toUnit]} = ${result.toFixed(6)} ${this.weightNames[toUnit]}`
+                };
+            },
+
+            // Преобразование длины
+            convertLength: function(value, fromUnit, toUnit) {
+                const baseValue = value * this.lengthFactors[fromUnit];
+                const result = baseValue / this.lengthFactors[toUnit];
+
+                return {
+                    value: result,
+                    explanation: `${value} ${this.lengthNames[fromUnit]} = ${value} × ${this.lengthFactors[fromUnit]} / ${this.lengthFactors[toUnit]} = ${result.toFixed(6)} ${this.lengthNames[toUnit]}`
+                };
+            }
+        };
+
         // Генератор примеров для самых маленьких
         const KidsMathGenerator = {
             // Генерация простого математического примера
@@ -1547,71 +2091,146 @@
             }
         };
 
-        // Генератор задач с единицами измерения
-        const UnitsPracticeGenerator = {
-            // Генерация задачи на сравнение единиц измерения
-            generateComparisonProblem: function() {
-                const units = [
-                    { type: 'time', units: ['s', 'min', 'h'], factors: [1, 60, 3600] },
-                    { type: 'length', units: ['mm', 'cm', 'm', 'km'], factors: [1, 10, 1000, 1000000] },
-                    { type: 'mass', units: ['mg', 'g', 'kg'], factors: [1, 1000, 1000000] }
-                ];
-
-                const unitType = units[Math.floor(Math.random() * units.length)];
-                const unitIndex1 = Math.floor(Math.random() * unitType.units.length);
+        // Генератор задач с единицами измерения для начальной школы
+        const ElementaryUnitsPracticeGenerator = {
+            // Генерация задачи на сравнение единиц измерения времени
+            generateTimeComparisonProblem: function() {
+                const units = ['s', 'min', 'h'];
+                const unitIndex1 = Math.floor(Math.random() * units.length);
                 let unitIndex2;
                 do {
-                    unitIndex2 = Math.floor(Math.random() * unitType.units.length);
+                    unitIndex2 = Math.floor(Math.random() * units.length);
                 } while (unitIndex1 === unitIndex2);
 
                 const value1 = Math.floor(Math.random() * 100) + 1;
                 const value2 = Math.floor(Math.random() * 100) + 1;
 
-                // Переводим оба значения в базовые единицы для сравнения
-                const baseValue1 = value1 * unitType.factors[unitIndex1];
-                const baseValue2 = value2 * unitType.factors[unitIndex2];
+                // Переводим оба значения в секунды для сравнения
+                const baseValue1 = value1 * UnitsConverter.timeFactors[units[unitIndex1]];
+                const baseValue2 = value2 * UnitsConverter.timeFactors[units[unitIndex2]];
 
                 let correctAnswer;
                 if (baseValue1 > baseValue2) correctAnswer = '>';
                 else if (baseValue1 < baseValue2) correctAnswer = '<';
                 else correctAnswer = '=';
 
-                // Получаем русские названия единиц
-                const unitNames = {
-                    's': 'секунд', 'min': 'минут', 'h': 'часов',
-                    'mm': 'мм', 'cm': 'см', 'm': 'м', 'km': 'км',
-                    'mg': 'мг', 'g': 'г', 'kg': 'кг'
-                };
-
                 return {
-                    problem: `${value1} ${unitNames[unitType.units[unitIndex1]]} ? ${value2} ${unitNames[unitType.units[unitIndex2]]}`,
+                    problem: `${value1} ${UnitsConverter.timeNames[units[unitIndex1]]} ? ${value2} ${UnitsConverter.timeNames[units[unitIndex2]]}`,
                     answer: correctAnswer,
-                    explanation: `${value1} ${unitNames[unitType.units[unitIndex1]]} = ${baseValue1} баз. ед., ${value2} ${unitNames[unitType.units[unitIndex2]]} = ${baseValue2} баз. ед.`
+                    explanation: `${value1} ${UnitsConverter.timeNames[units[unitIndex1]]} = ${baseValue1} секунд, ${value2} ${UnitsConverter.timeNames[units[unitIndex2]]} = ${baseValue2} секунд`
                 };
             },
 
-            // Генерация задачи на перевод единиц
-            generateConversionProblem: function() {
-                const units = [
-                    { type: 'time', units: ['s', 'min', 'h'], factors: [1, 60, 3600], names: ['секунд', 'минут', 'часов'] },
-                    { type: 'length', units: ['mm', 'cm', 'm', 'km'], factors: [1, 10, 1000, 1000000], names: ['мм', 'см', 'м', 'км'] },
-                    { type: 'mass', units: ['mg', 'g', 'kg'], factors: [1, 1000, 1000000], names: ['мг', 'г', 'кг'] }
-                ];
-
-                const unitType = units[Math.floor(Math.random() * units.length)];
-                const unitIndex1 = Math.floor(Math.random() * unitType.units.length);
+            // Генерация задачи на перевод единиц времени
+            generateTimeConversionProblem: function() {
+                const units = ['s', 'min', 'h'];
+                const unitIndex1 = Math.floor(Math.random() * units.length);
                 let unitIndex2;
                 do {
-                    unitIndex2 = Math.floor(Math.random() * unitType.units.length);
+                    unitIndex2 = Math.floor(Math.random() * units.length);
                 } while (unitIndex1 === unitIndex2);
 
                 const value = Math.floor(Math.random() * 100) + 1;
-                const result = (value * unitType.factors[unitIndex1]) / unitType.factors[unitIndex2];
+                const result = (value * UnitsConverter.timeFactors[units[unitIndex1]]) / UnitsConverter.timeFactors[units[unitIndex2]];
 
                 return {
-                    problem: `Сколько ${unitType.names[unitIndex2]} в ${value} ${unitType.names[unitIndex1]}?`,
+                    problem: `Сколько ${UnitsConverter.timeNames[units[unitIndex2]]} в ${value} ${UnitsConverter.timeNames[units[unitIndex1]]}?`,
                     answer: result.toFixed(2),
-                    explanation: `${value} ${unitType.names[unitIndex1]} = ${value} × ${unitType.factors[unitIndex1]} / ${unitType.factors[unitIndex2]} = ${result.toFixed(2)} ${unitType.names[unitIndex2]}`
+                    explanation: `${value} ${UnitsConverter.timeNames[units[unitIndex1]]} = ${value} × ${UnitsConverter.timeFactors[units[unitIndex1]]} / ${UnitsConverter.timeFactors[units[unitIndex2]]} = ${result.toFixed(2)} ${UnitsConverter.timeNames[units[unitIndex2]]}`
+                };
+            },
+
+            // Генерация задачи на сравнение единиц веса
+            generateWeightComparisonProblem: function() {
+                const units = ['g', 'kg'];
+                const unitIndex1 = Math.floor(Math.random() * units.length);
+                let unitIndex2;
+                do {
+                    unitIndex2 = Math.floor(Math.random() * units.length);
+                } while (unitIndex1 === unitIndex2);
+
+                const value1 = Math.floor(Math.random() * 100) + 1;
+                const value2 = Math.floor(Math.random() * 100) + 1;
+
+                // Переводим оба значения в граммы для сравнения
+                const baseValue1 = value1 * UnitsConverter.weightFactors[units[unitIndex1]];
+                const baseValue2 = value2 * UnitsConverter.weightFactors[units[unitIndex2]];
+
+                let correctAnswer;
+                if (baseValue1 > baseValue2) correctAnswer = '>';
+                else if (baseValue1 < baseValue2) correctAnswer = '<';
+                else correctAnswer = '=';
+
+                return {
+                    problem: `${value1} ${UnitsConverter.weightNames[units[unitIndex1]]} ? ${value2} ${UnitsConverter.weightNames[units[unitIndex2]]}`,
+                    answer: correctAnswer,
+                    explanation: `${value1} ${UnitsConverter.weightNames[units[unitIndex1]]} = ${baseValue1} грамм, ${value2} ${UnitsConverter.weightNames[units[unitIndex2]]} = ${baseValue2} грамм`
+                };
+            },
+
+            // Генерация задачи на перевод единиц веса
+            generateWeightConversionProblem: function() {
+                const units = ['g', 'kg'];
+                const unitIndex1 = Math.floor(Math.random() * units.length);
+                let unitIndex2;
+                do {
+                    unitIndex2 = Math.floor(Math.random() * units.length);
+                } while (unitIndex1 === unitIndex2);
+
+                const value = Math.floor(Math.random() * 100) + 1;
+                const result = (value * UnitsConverter.weightFactors[units[unitIndex1]]) / UnitsConverter.weightFactors[units[unitIndex2]];
+
+                return {
+                    problem: `Сколько ${UnitsConverter.weightNames[units[unitIndex2]]} в ${value} ${UnitsConverter.weightNames[units[unitIndex1]]}?`,
+                    answer: result.toFixed(2),
+                    explanation: `${value} ${UnitsConverter.weightNames[units[unitIndex1]]} = ${value} × ${UnitsConverter.weightFactors[units[unitIndex1]]} / ${UnitsConverter.weightFactors[units[unitIndex2]]} = ${result.toFixed(2)} ${UnitsConverter.weightNames[units[unitIndex2]]}`
+                };
+            },
+
+            // Генерация задачи на сравнение единиц длины
+            generateLengthComparisonProblem: function() {
+                const units = ['mm', 'cm', 'm', 'km'];
+                const unitIndex1 = Math.floor(Math.random() * 3); // mm, cm, m
+                let unitIndex2;
+                do {
+                    unitIndex2 = Math.floor(Math.random() * 3);
+                } while (unitIndex1 === unitIndex2);
+
+                const value1 = Math.floor(Math.random() * 100) + 1;
+                const value2 = Math.floor(Math.random() * 100) + 1;
+
+                // Переводим оба значения в миллиметры для сравнения
+                const baseValue1 = value1 * UnitsConverter.lengthFactors[units[unitIndex1]];
+                const baseValue2 = value2 * UnitsConverter.lengthFactors[units[unitIndex2]];
+
+                let correctAnswer;
+                if (baseValue1 > baseValue2) correctAnswer = '>';
+                else if (baseValue1 < baseValue2) correctAnswer = '<';
+                else correctAnswer = '=';
+
+                return {
+                    problem: `${value1} ${UnitsConverter.lengthNames[units[unitIndex1]]} ? ${value2} ${UnitsConverter.lengthNames[units[unitIndex2]]}`,
+                    answer: correctAnswer,
+                    explanation: `${value1} ${UnitsConverter.lengthNames[units[unitIndex1]]} = ${baseValue1} мм, ${value2} ${UnitsConverter.lengthNames[units[unitIndex2]]} = ${baseValue2} мм`
+                };
+            },
+
+            // Генерация задачи на перевод единиц длины
+            generateLengthConversionProblem: function() {
+                const units = ['mm', 'cm', 'm', 'km'];
+                const unitIndex1 = Math.floor(Math.random() * 3); // mm, cm, m
+                let unitIndex2;
+                do {
+                    unitIndex2 = Math.floor(Math.random() * 3);
+                } while (unitIndex1 === unitIndex2);
+
+                const value = Math.floor(Math.random() * 100) + 1;
+                const result = (value * UnitsConverter.lengthFactors[units[unitIndex1]]) / UnitsConverter.lengthFactors[units[unitIndex2]];
+
+                return {
+                    problem: `Сколько ${UnitsConverter.lengthNames[units[unitIndex2]]} в ${value} ${UnitsConverter.lengthNames[units[unitIndex1]]}?`,
+                    answer: result.toFixed(2),
+                    explanation: `${value} ${UnitsConverter.lengthNames[units[unitIndex1]]} = ${value} × ${UnitsConverter.lengthFactors[units[unitIndex1]]} / ${UnitsConverter.lengthFactors[units[unitIndex2]]} = ${result.toFixed(2)} ${UnitsConverter.lengthNames[units[unitIndex2]]}`
                 };
             }
         };
@@ -1654,6 +2273,83 @@
             // Генерация случайного уравнения для начальной школы
             generateRandomEquation: function() {
                 return this.generateLinear();
+            },
+
+            // Генерация задачи с единицами измерения
+            generateUnitsProblem: function(type) {
+                if (type === 'time') {
+                    const problemTypes = ['comparison', 'conversion'];
+                    const problemType = problemTypes[Math.floor(Math.random() * problemTypes.length)];
+
+                    if (problemType === 'comparison') {
+                        return ElementaryUnitsPracticeGenerator.generateTimeComparisonProblem();
+                    } else {
+                        return ElementaryUnitsPracticeGenerator.generateTimeConversionProblem();
+                    }
+                } else if (type === 'weight') {
+                    const problemTypes = ['comparison', 'conversion'];
+                    const problemType = problemTypes[Math.floor(Math.random() * problemTypes.length)];
+
+                    if (problemType === 'comparison') {
+                        return ElementaryUnitsPracticeGenerator.generateWeightComparisonProblem();
+                    } else {
+                        return ElementaryUnitsPracticeGenerator.generateWeightConversionProblem();
+                    }
+                } else if (type === 'length') {
+                    const problemTypes = ['comparison', 'conversion'];
+                    const problemType = problemTypes[Math.floor(Math.random() * problemTypes.length)];
+
+                    if (problemType === 'comparison') {
+                        return ElementaryUnitsPracticeGenerator.generateLengthComparisonProblem();
+                    } else {
+                        return ElementaryUnitsPracticeGenerator.generateLengthConversionProblem();
+                    }
+                }
+            }
+        };
+
+        // Генератор квадратных неравенств для практики
+        const QuadraticInequalityPracticeGenerator = {
+            generateQuadraticInequality: function() {
+                // Генерируем корни
+                const x1 = Math.floor(Math.random() * 10) - 5; // от -5 до 5
+                const x2 = Math.floor(Math.random() * 10) - 5; // от -5 до 5
+
+                // Убедимся, что x1 и x2 разные
+                const minX = Math.min(x1, x2);
+                const maxX = Math.max(x1, x2);
+
+                // Формируем коэффициенты по теореме Виета
+                const a = 1;
+                const b = -(x1 + x2);
+                const c = x1 * x2;
+
+                // Выбираем случайный знак неравенства
+                const signs = ['>', '<', '>=', '<='];
+                const sign = signs[Math.floor(Math.random() * signs.length)];
+
+                // Формируем неравенство
+                let inequality = `x²`;
+                if (b > 0) {
+                    inequality += ` + ${b}x`;
+                } else if (b < 0) {
+                    inequality += ` - ${Math.abs(b)}x`;
+                }
+
+                if (c > 0) {
+                    inequality += ` + ${c}`;
+                } else if (c < 0) {
+                    inequality += ` - ${Math.abs(c)}`;
+                }
+                inequality += ` ${sign} 0`;
+
+                // Решаем неравенство
+                const solution = EquationSolver.solveQuadraticInequality(a, b, c, sign, inequality);
+
+                return {
+                    inequality: inequality,
+                    solution: solution
+                };
             }
         };
 
@@ -1754,12 +2450,17 @@
                 };
             },
 
-            // Генерация случайного уравнения/неравенства (линейного, квадратного или неравенства)
+            // Генерация квадратного неравенства
+            generateQuadraticInequality: function() {
+                return QuadraticInequalityPracticeGenerator.generateQuadraticInequality();
+            },
+
+            // Генерация случайного уравнения/неравенства
             generateRandomEquation: function(type = 'mixed') {
                 let types;
 
                 if (type === 'mixed') {
-                    types = ['linear', 'quadratic', 'linear-inequality'];
+                    types = ['linear', 'quadratic', 'linear-inequality', 'quadratic-inequality'];
                 } else {
                     types = [type];
                 }
@@ -1772,57 +2473,9 @@
                     return this.generateQuadratic();
                 } else if (selectedType === 'linear-inequality') {
                     return this.generateLinearInequality();
+                } else if (selectedType === 'quadratic-inequality') {
+                    return this.generateQuadraticInequality();
                 }
-            }
-        };
-
-        // Конвертер единиц измерения
-        const UnitsConverter = {
-            // Коэффициенты преобразования
-            factors: {
-                // Длина
-                'mm': 1,
-                'cm': 10,
-                'm': 1000,
-                'km': 1000000,
-                // Масса
-                'mg': 1,
-                'g': 1000,
-                'kg': 1000000,
-                // Время
-                's': 1,
-                'min': 60,
-                'h': 3600
-            },
-
-            // Названия единиц на русском
-            names: {
-                'mm': 'миллиметров',
-                'cm': 'сантиметров',
-                'm': 'метров',
-                'km': 'километров',
-                'mg': 'миллиграммов',
-                'g': 'граммов',
-                'kg': 'килограммов',
-                's': 'секунд',
-                'min': 'минут',
-                'h': 'часов'
-            },
-
-            // Преобразование единиц
-            convert: function(value, fromUnit, toUnit) {
-                if (!this.factors[fromUnit] || !this.factors[toUnit]) {
-                    throw new Error('Неизвестная единица измерения');
-                }
-
-                // Преобразуем в базовые единицы, затем в целевую единицу
-                const baseValue = value * this.factors[fromUnit];
-                const result = baseValue / this.factors[toUnit];
-
-                return {
-                    value: result,
-                    explanation: `${value} ${this.names[fromUnit]} = ${value} × ${this.factors[fromUnit]} / ${this.factors[toUnit]} = ${result.toFixed(6)} ${this.names[toUnit]}`
-                };
             }
         };
 
@@ -1869,13 +2522,33 @@
             const elementaryResultContainer = document.getElementById('elementaryResultContainer');
             const elementaryErrorMessage = document.getElementById('elementaryErrorMessage');
 
-            // Конвертер единиц измерения
-            const unitValue = document.getElementById('unitValue');
-            const unitFrom = document.getElementById('unitFrom');
-            const unitTo = document.getElementById('unitTo');
-            const convertBtn = document.getElementById('convertBtn');
-            const unitResultContainer = document.getElementById('unitResultContainer');
-            const unitMathExpression = document.getElementById('unitMathExpression');
+            // Калькуляторы единиц измерения
+            const unitTabs = document.querySelectorAll('.unit-tab');
+            const unitContents = document.querySelectorAll('.unit-content');
+
+            // Время
+            const timeValue = document.getElementById('timeValue');
+            const timeFrom = document.getElementById('timeFrom');
+            const timeTo = document.getElementById('timeTo');
+            const convertTimeBtn = document.getElementById('convertTimeBtn');
+            const timeResultContainer = document.getElementById('timeResultContainer');
+            const timeMathExpression = document.getElementById('timeMathExpression');
+
+            // Вес
+            const weightValue = document.getElementById('weightValue');
+            const weightFrom = document.getElementById('weightFrom');
+            const weightTo = document.getElementById('weightTo');
+            const convertWeightBtn = document.getElementById('convertWeightBtn');
+            const weightResultContainer = document.getElementById('weightResultContainer');
+            const weightMathExpression = document.getElementById('weightMathExpression');
+
+            // Длина
+            const lengthValue = document.getElementById('lengthValue');
+            const lengthFrom = document.getElementById('lengthFrom');
+            const lengthTo = document.getElementById('lengthTo');
+            const convertLengthBtn = document.getElementById('convertLengthBtn');
+            const lengthResultContainer = document.getElementById('lengthResultContainer');
+            const lengthMathExpression = document.getElementById('lengthMathExpression');
 
             // Практика для начальной школы
             const elementaryPracticeProblem = document.getElementById('elementaryPracticeProblem');
@@ -1899,6 +2572,17 @@
             // Категории средней школы
             const categoryButtons = document.querySelectorAll('.category-btn');
             const categoryContents = document.querySelectorAll('.category-content');
+
+            // Практика для квадратных неравенств
+            const quadraticInequalityPracticeProblem = document.getElementById('quadraticInequalityPracticeProblem');
+            const quadraticInequalityPracticeAnswer = document.getElementById('quadraticInequalityPracticeAnswer');
+            const quadraticInequalityCheckAnswerButton = document.getElementById('quadraticInequalityCheckAnswer');
+            const quadraticInequalityNextProblemButton = document.getElementById('quadraticInequalityNextProblem');
+            const quadraticInequalityPracticeError = document.getElementById('quadraticInequalityPracticeError');
+            const quadraticInequalityPracticeSuccess = document.getElementById('quadraticInequalityPracticeSuccess');
+            const quadraticInequalityPracticeSolution = document.getElementById('quadraticInequalityPracticeSolution');
+            const quadraticInequalityPracticeMathExpression = document.getElementById('quadraticInequalityPracticeMathExpression');
+            const quadraticInequalityPracticeStepsContainer = document.getElementById('quadraticInequalityPracticeStepsContainer');
 
             // Практика для средней школы
             const middlePracticeProblem = document.getElementById('middlePracticeProblem');
@@ -1933,6 +2617,7 @@
             let currentElementaryPracticeType = 'equations';
             let currentMiddleProblem = null;
             let currentMiddlePracticeType = 'mixed';
+            let currentQuadraticInequalityProblem = null;
 
             // Статистика
             let elementaryStats = { solved: 0, correct: 0 };
@@ -2031,22 +2716,23 @@
                     elementaryPracticeProblem.textContent = currentElementaryProblem.equation;
                 } else {
                     // Генерация задачи с единицами измерения
-                    const problemTypes = ['comparison', 'conversion'];
-                    const problemType = problemTypes[Math.floor(Math.random() * problemTypes.length)];
-
-                    if (problemType === 'comparison') {
-                        currentElementaryProblem = UnitsPracticeGenerator.generateComparisonProblem();
-                        elementaryPracticeProblem.textContent = `Сравните: ${currentElementaryProblem.problem}`;
-                    } else {
-                        currentElementaryProblem = UnitsPracticeGenerator.generateConversionProblem();
-                        elementaryPracticeProblem.textContent = currentElementaryProblem.problem;
-                    }
+                    currentElementaryProblem = ElementaryPracticeGenerator.generateUnitsProblem(currentElementaryPracticeType);
+                    elementaryPracticeProblem.textContent = currentElementaryProblem.problem;
                 }
 
                 elementaryPracticeAnswer.value = '';
                 elementaryPracticeError.style.display = 'none';
                 elementaryPracticeSuccess.style.display = 'none';
                 elementaryPracticeSolution.style.display = 'none';
+            }
+
+            function generateNewQuadraticInequalityProblem() {
+                currentQuadraticInequalityProblem = QuadraticInequalityPracticeGenerator.generateQuadraticInequality();
+                quadraticInequalityPracticeProblem.textContent = currentQuadraticInequalityProblem.inequality;
+                quadraticInequalityPracticeAnswer.value = '';
+                quadraticInequalityPracticeError.style.display = 'none';
+                quadraticInequalityPracticeSuccess.style.display = 'none';
+                quadraticInequalityPracticeSolution.style.display = 'none';
             }
 
             function generateNewMiddleProblem() {
@@ -2142,6 +2828,39 @@
                 }
 
                 updateStats(elementaryProblemsSolved, elementaryCorrectAnswers, elementarySuccessRate, elementaryStats);
+            }
+
+            function checkQuadraticInequalityAnswer() {
+                const userAnswer = quadraticInequalityPracticeAnswer.value.trim();
+
+                if (!userAnswer) {
+                    displayPracticeError(quadraticInequalityPracticeError, quadraticInequalityPracticeSuccess, quadraticInequalityPracticeSolution, 'Пожалуйста, введите ответ');
+                    return;
+                }
+
+                if (!currentQuadraticInequalityProblem) {
+                    displayPracticeError(quadraticInequalityPracticeError, quadraticInequalityPracticeSuccess, quadraticInequalityPracticeSolution, 'Сначала сгенерируйте неравенство');
+                    return;
+                }
+
+                // Нормализуем ответ пользователя и правильный ответ для сравнения
+                const normalizedUserAnswer = userAnswer.toLowerCase().replace(/\s/g, '');
+                const normalizedCorrectAnswer = currentQuadraticInequalityProblem.solution.solution.toLowerCase().replace(/\s/g, '');
+
+                // Простая проверка совпадения ответов
+                if (normalizedUserAnswer === normalizedCorrectAnswer) {
+                    displayPracticeSuccess(quadraticInequalityPracticeSuccess, quadraticInequalityPracticeError, quadraticInequalityPracticeSolution, 'Правильно! Отличная работа!');
+                } else {
+                    displayPracticeSolution(
+                        quadraticInequalityPracticeMathExpression,
+                        quadraticInequalityPracticeStepsContainer,
+                        quadraticInequalityPracticeSolution,
+                        quadraticInequalityPracticeError,
+                        quadraticInequalityPracticeSuccess,
+                        currentQuadraticInequalityProblem.inequality,
+                        currentQuadraticInequalityProblem.solution
+                    );
+                }
             }
 
             function checkMiddleAnswer() {
@@ -2312,32 +3031,65 @@
                     <div class="step"><strong>Функция:</strong> y = ${functionText}</div>
                     <div class="step"><strong>Область определения:</strong> все действительные числа</div>
                     <div class="step"><strong>Область значений:</strong> зависит от функции</div>
+                    <div class="step"><strong>Примечание:</strong> График построен в бета-режиме, возможны неточности</div>
                 `;
             }
 
-            // Функция для конвертации единиц измерения
-            function convertUnits() {
-                const value = parseFloat(unitValue.value);
-                const fromUnit = unitFrom.value;
-                const toUnit = unitTo.value;
+            // Функции для конвертации единиц измерения
+            function convertTime() {
+                const value = parseFloat(timeValue.value);
+                const fromUnit = timeFrom.value;
+                const toUnit = timeTo.value;
 
                 if (isNaN(value)) {
-                    displayError(unitResultContainer, unitResultContainer, 'Пожалуйста, введите числовое значение');
+                    displayError(timeResultContainer, timeResultContainer, 'Пожалуйста, введите числовое значение');
                     return;
                 }
 
                 try {
-                    const result = UnitsConverter.convert(value, fromUnit, toUnit);
-                    unitMathExpression.textContent = `${value} ${UnitsConverter.names[fromUnit]} = ${result.value.toFixed(6)} ${UnitsConverter.names[toUnit]}`;
-                    unitResultContainer.style.display = 'block';
-
-                    // Добавляем объяснение
-                    const explanationDiv = document.createElement('div');
-                    explanationDiv.className = 'step';
-                    explanationDiv.textContent = result.explanation;
-                    unitResultContainer.appendChild(explanationDiv);
+                    const result = UnitsConverter.convertTime(value, fromUnit, toUnit);
+                    timeMathExpression.textContent = `${value} ${UnitsConverter.timeNames[fromUnit]} = ${result.value.toFixed(6)} ${UnitsConverter.timeNames[toUnit]}`;
+                    timeResultContainer.style.display = 'block';
                 } catch (error) {
-                    displayError(unitResultContainer, unitResultContainer, 'Ошибка: ' + error.message);
+                    displayError(timeResultContainer, timeResultContainer, 'Ошибка: ' + error.message);
+                }
+            }
+
+            function convertWeight() {
+                const value = parseFloat(weightValue.value);
+                const fromUnit = weightFrom.value;
+                const toUnit = weightTo.value;
+
+                if (isNaN(value)) {
+                    displayError(weightResultContainer, weightResultContainer, 'Пожалуйста, введите числовое значение');
+                    return;
+                }
+
+                try {
+                    const result = UnitsConverter.convertWeight(value, fromUnit, toUnit);
+                    weightMathExpression.textContent = `${value} ${UnitsConverter.weightNames[fromUnit]} = ${result.value.toFixed(6)} ${UnitsConverter.weightNames[toUnit]}`;
+                    weightResultContainer.style.display = 'block';
+                } catch (error) {
+                    displayError(weightResultContainer, weightResultContainer, 'Ошибка: ' + error.message);
+                }
+            }
+
+            function convertLength() {
+                const value = parseFloat(lengthValue.value);
+                const fromUnit = lengthFrom.value;
+                const toUnit = lengthTo.value;
+
+                if (isNaN(value)) {
+                    displayError(lengthResultContainer, lengthResultContainer, 'Пожалуйста, введите числовое значение');
+                    return;
+                }
+
+                try {
+                    const result = UnitsConverter.convertLength(value, fromUnit, toUnit);
+                    lengthMathExpression.textContent = `${value} ${UnitsConverter.lengthNames[fromUnit]} = ${result.value.toFixed(6)} ${UnitsConverter.lengthNames[toUnit]}`;
+                    lengthResultContainer.style.display = 'block';
+                } catch (error) {
+                    displayError(lengthResultContainer, lengthResultContainer, 'Ошибка: ' + error.message);
                 }
             }
 
@@ -2523,8 +3275,25 @@
                 }
             });
 
-            // Обработчики для конвертера единиц измерения
-            convertBtn.addEventListener('click', convertUnits);
+            // Обработчики для переключения между калькуляторами единиц измерения
+            unitTabs.forEach(tab => {
+                tab.addEventListener('click', function() {
+                    const unitType = this.getAttribute('data-unit-type');
+
+                    // Убираем активный класс со всех табов и контента
+                    unitTabs.forEach(t => t.classList.remove('active'));
+                    unitContents.forEach(c => c.classList.remove('active'));
+
+                    // Добавляем активный класс текущему табу и соответствующему контенту
+                    this.classList.add('active');
+                    document.getElementById(`${unitType}-content`).classList.add('active');
+                });
+            });
+
+            // Обработчики для конвертеров единиц измерения
+            convertTimeBtn.addEventListener('click', convertTime);
+            convertWeightBtn.addEventListener('click', convertWeight);
+            convertLengthBtn.addEventListener('click', convertLength);
 
             // Обработчики для практики начальной школы
             elementaryCheckAnswerButton.addEventListener('click', checkElementaryAnswer);
@@ -2549,6 +3318,8 @@
             // Обработчики для категорий средней школы
             categoryButtons.forEach(button => {
                 button.addEventListener('click', function() {
+                    if (this.classList.contains('disabled')) return;
+
                     const category = this.getAttribute('data-category');
 
                     // Убираем активный класс со всех кнопок и контента
@@ -2612,6 +3383,16 @@
                 });
             });
 
+            // Обработчики для практики квадратных неравенств
+            quadraticInequalityCheckAnswerButton.addEventListener('click', checkQuadraticInequalityAnswer);
+            quadraticInequalityNextProblemButton.addEventListener('click', generateNewQuadraticInequalityProblem);
+
+            quadraticInequalityPracticeAnswer.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    quadraticInequalityCheckAnswerButton.click();
+                }
+            });
+
             // Обработчики для практики средней школы
             middleCheckAnswerButton.addEventListener('click', checkMiddleAnswer);
             middleNextProblemButton.addEventListener('click', generateNewMiddleProblem);
@@ -2653,6 +3434,7 @@
             generateNewKidsMathProblem();
             generateNewKidsComparisonProblem();
             generateNewElementaryProblem();
+            generateNewQuadraticInequalityProblem();
             generateNewMiddleProblem();
             updateStats(elementaryProblemsSolved, elementaryCorrectAnswers, elementarySuccessRate, elementaryStats);
             updateStats(middleProblemsSolved, middleCorrectAnswers, middleSuccessRate, middleStats);
